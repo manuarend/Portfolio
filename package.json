@@ -1,0 +1,7 @@
+{
+  "name": "portfolio-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "cd 01-jbp-joint-business-planning && npm install && npm run build"
+  }
+}
