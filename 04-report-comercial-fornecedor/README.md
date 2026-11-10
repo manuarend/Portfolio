@@ -1,5 +1,33 @@
+<div align="center">
+
 # 📊 Relatório Comercial Mensal de Fornecedores
 ### 🚀 Case de Sucesso: Simplificação e Automação de um Processo Analítico Caótico
+
+[![Acessar Demonstração ao Vivo](https://img.shields.io/badge/🚀_Live_Demo-Acessar_Painel_Interativo-0052cc?style=for-the-badge&logo=googlechrome&logoColor=white)](https://manuarend.github.io/Portfolio/04-report-comercial-fornecedor/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Online-blue?style=for-the-badge&logo=github)](https://manuarend.github.io/Portfolio/04-report-comercial-fornecedor/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Data_App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![SQL](https://img.shields.io/badge/SQL-Advanced_Queries-F80000?style=for-the-badge&logo=postgresql&logoColor=white)](#)
+
+**Painel Executivo e Data App para Acompanhamento Trienal de Vendas e Volume por Indústria**
+
+</div>
+
+---
+
+## 🌐 Demonstração Interativa Online (Live Demo)
+> [!TIP]
+> Você pode acessar o painel executivo de fornecedores funcionando ao vivo no navegador (sem necessidade de instalar nada):  
+> 👉 **[Clique aqui para abrir o Scorecard de Fornecedores no GitHub Pages](https://manuarend.github.io/Portfolio/04-report-comercial-fornecedor/)**  
+> 
+> *Funcionalidades ativas no painel:*
+> - **Seleção dinâmica de fornecedores industriais** (*Unilever, Eurofarma, EMS, Aché, Sanofi, Bayer*);
+> - **Filtros por canal de venda** (*Loja Física, App Mobile, Site, Televendas, Marketplace*);
+> - **Histórico trienal unificado (2024, 2025 e 2026)** com comparativos de Faturamento e Unidades;
+> - **Tabelas dinâmicas pivotadas mensais** com totais acumulados instantâneos;
+> - **Gráficos de evolução linear e barras agrupadas** com destaque interativo;
+> - **Exportação de relatório em PDF** pronto para reuniões executivas e rodadas comerciais.
+
+---
 
 > **Destaque de Currículo & Entrevistas:**  
 > *"Redesenho e automação de fluxos analíticos complexos, integrando múltiplas fontes de dados (SQL, Python e BI) para eliminar retrabalho manual, erradicar planilhas gigantes desconectadas e democratizar o acesso a indicadores gerenciais com atualização instantânea."*
