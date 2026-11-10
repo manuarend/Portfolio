@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório Comercial Mensal de Fornecedores | Nexus Varejo B2B</title>
+  
+  <!-- Google Fonts: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- ApexCharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif']
+          },
+          colors: {
+            nexus: {
+              navy: '#0B132B',
+              blue: '#0052CC',
+              blueDark: '#0747A6',
+              green: '#009B4D',
+              orange: '#FF9326'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    
+    .card-shadow {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+
+<body class="bg-[#F8FAFC] dark:bg-[#070A12] text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- ========================================== -->
+  <!-- 1. TOP NAVBAR / BRANDING -->
+  <!-- ========================================== -->
+  <header class="bg-white/95 dark:bg-[#0B101D]/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 px-4 md:px-8 py-3 sticky top-0 z-40 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center text-white font-extrabold text-sm shadow-md border border-blue-400/30">
+        NX
+      </div>
+      <div>
+        <h1 class="text-sm md:text-base font-bold font-montserrat tracking-tight text-slate-900 dark:text-white">
+          NEXUS VAREJO B2B <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 ml-1.5">Scorecard de Fornecedores</span>
+        </h1>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400">Inteligência Comercial & Acompanhamento de Performance Mensal</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2.5">
+      <button onclick="window.print()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-colors shadow-xs">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span>Exportar PDF</span>
+      </button>
+
+      <a href="https://github.com/manuarend/Portfolio" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 transition-colors border border-slate-200 dark:border-slate-700">
+        <i data-lucide="github" class="w-3.5 h-3.5"></i>
+        <span>Repositório</span>
+      </a>
+
+      <!-- Theme Switcher -->
+      <button id="themeToggle" class="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 transition-colors" title="Alternar Modo Claro/Escuro">
+        <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. MAIN CONTENT CONTAINER -->
+  <!-- ========================================== -->
+  <main class="flex-1 max-w-[1500px] w-full mx-auto p-4 md:p-8 space-y-6">
+
+    <!-- Executive Gradient Header Banner (Original Fidelity) -->
+    <div class="bg-gradient-to-r from-nexus-navy via-blue-900 to-sky-700 rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📊</span>
+          <h2 class="text-lg md:text-xl font-extrabold font-montserrat tracking-tight text-white">Relatório Comercial Mensal</h2>
+        </div>
+        <p class="text-xs text-blue-200 mt-1 max-w-2xl">
+          Evolução Mensal de Vendas por Fornecedor: Acompanhamento de Faturamento (VALOR) e Volume (UNIDADES) nos ciclos 2024, 2025 e 2026.
+        </p>
+      </div>
+
+      <div class="shrink-0 flex items-center gap-2">
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 text-white backdrop-blur border border-white/20">
+          Base 2024–2026 Consolidada
+        </span>
+      </div>
+    </div>
+
+    <!-- Filters Card -->
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+      <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+        <i data-lucide="filter" class="w-3.5 h-3.5 text-blue-600"></i>
+        <span>Filtros de Análise Comercial</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <!-- Filter 1: Laboratório / Fornecedor -->
+        <div>
+          <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Indústria / Fornecedor</label>
+          <select id="selSupplier" onchange="applyFilters()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 outline-none">
+            <option value="ALL">Todos os Fornecedores (Consolidado)</option>
+            <option value="UNILEVER BRASIL B2B" selected>UNILEVER BRASIL B2B</option>
+            <option value="EUROFARMA CONSUMO">EUROFARMA CONSUMO</option>
+            <option value="EMS PHARMA & HEALTH">EMS PHARMA & HEALTH</option>
+            <option value="ACHÉ LABORATÓRIOS">ACHÉ LABORATÓRIOS</option>
+            <option value="SANOFI BRASIL">SANOFI BRASIL</option>
+            <option value="BAYER HEALTH">BAYER HEALTH</option>
+          </select>
+        </div>
+
+        <!-- Filter 2: Canal de Venda -->
+        <div>
+          <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Canal de Venda</label>
+          <select id="selChannel" onchange="applyFilters()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 outline-none">
+            <option value="ALL">Todos os Canais (Omnichannel)</option>
+            <option value="Loja Física">Loja Física</option>
+            <option value="App Mobile">App Mobile</option>
+            <option value="Site E-commerce">Site E-commerce</option>
+            <option value="Televendas">Televendas</option>
+            <option value="Marketplace">Marketplace</option>
+          </select>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400">💡 Se nenhum filtro for alterado, o fornecedor padrão pré-selecionado é considerado. Período: Jan/2024 – Ago/2026.</p>
+    </div>
+
+    <!-- 3 KPI Metric Cards (Fidelidade ao Streamlit original) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <!-- KPI 1: Faturamento Filtrado -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs text-center">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Faturamento Filtrado (2026)</div>
+        <div class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mt-1 font-montserrat" id="kpiRevenueFiltered">
+          R$ 7.840,00
+        </div>
+        <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">Acumulado Jan–Ago/26</div>
+      </div>
+
+      <!-- KPI 2: Faturamento REDE -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs text-center">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Faturamento REDE (2026)</div>
+        <div class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mt-1 font-montserrat" id="kpiRevenueRede">
+          R$ 9.850,00
+        </div>
+        <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">Acumulado até Ago/26</div>
+      </div>
+
+      <!-- KPI 3: Participação na REDE -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs text-center">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Participação na REDE (2026)</div>
+        <div class="text-2xl md:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 font-montserrat" id="kpiShareRede">
+          79.6%
+        </div>
+        <div class="text-xs font-semibold text-slate-400 mt-1">Share Relativo em 2026</div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Tabs (Faturamento, Volume, Histórico Linear) -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 text-xs font-semibold">
+        <button onclick="switchTab('tab-valor')" id="btn-tab-valor" class="px-4 py-2 rounded-xl bg-blue-600 text-white shadow-xs flex items-center gap-1.5 transition-all">
+          <span>💰</span> Evolução Faturamento (R$)
+        </button>
+        <button onclick="switchTab('tab-volume')" id="btn-tab-volume" class="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-all">
+          <span>📦</span> Evolução Volume (Unidades)
+        </button>
+        <button onclick="switchTab('tab-historico')" id="btn-tab-historico" class="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-all">
+          <span>📋</span> Histórico Linear (Base)
+        </button>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 1: EVOLUÇÃO FATURAMENTO (R$) -->
+      <!-- ========================================== -->
+      <div id="tab-valor" class="space-y-6">
+        
+        <!-- Row 1: Chart (70%) + Report do Mês (30%) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-blue-600 pl-2">
+              Gráfico Evolutivo — Faturamento vs Crescimento
+            </h3>
+            <div id="chartRevenueEvolution" class="w-full h-80"></div>
+          </div>
+
+          <!-- Report do Mês Card (Side) -->
+          <div class="lg:col-span-4 flex flex-col justify-center">
+            <div class="bg-gradient-to-br from-nexus-navy via-slate-900 to-blue-950 rounded-2xl p-6 text-white shadow-lg border border-slate-800 space-y-4">
+              <div class="border-b border-white/10 pb-3 flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-300">📅 Report do Mês</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-200">Ago/26</span>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase font-bold text-blue-200">Faturamento Mensal</div>
+                <div class="text-3xl font-extrabold text-white mt-1 font-montserrat" id="cardRevMonthVal">R$ 7.840,00</div>
+              </div>
+              <div class="space-y-2 pt-2 text-xs">
+                <div class="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl p-3">
+                  <span class="text-blue-200">% MoM mês atual s/ mês ant.</span>
+                  <span class="font-bold text-emerald-400" id="cardRevMoM">+8.4%</span>
+                </div>
+                <div class="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl p-3">
+                  <span class="text-blue-200">% YoY 26x25</span>
+                  <span class="font-bold text-emerald-400" id="cardRevYoY">+14.2%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Pivot Table Faturamento -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div class="flex items-center justify-between mb-3 border-l-4 border-blue-600 pl-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              Tabela Pivot de Faturamento (R$)
+            </h3>
+            <button onclick="exportTableCSV('faturamento')" class="text-xs flex items-center gap-1 text-blue-600 hover:underline">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar CSV
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse" id="tablePivotRevenue">
+              <thead>
+                <tr class="bg-nexus-navy text-white text-[11px] uppercase font-semibold">
+                  <th class="py-2.5 px-3">Mês</th>
+                  <th class="py-2.5 px-3 text-right">2024</th>
+                  <th class="py-2.5 px-3 text-right">2025</th>
+                  <th class="py-2.5 px-3 text-right">2026</th>
+                  <th class="py-2.5 px-3 text-right">% MoM 25</th>
+                  <th class="py-2.5 px-3 text-right">% YoY 25x24</th>
+                  <th class="py-2.5 px-3 text-right">% YoY 26x25</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyRevenuePivot" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium"></tbody>
+            </table>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-3">ℹ️ YTD: Acumulado de Janeiro a Agosto para todos os anos representados.</p>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: EVOLUÇÃO VOLUME (UNIDADES) -->
+      <!-- ========================================== -->
+      <div id="tab-volume" class="space-y-6 hidden">
+        
+        <!-- Row 1: Chart (70%) + Report do Mês (30%) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 border-l-4 border-blue-600 pl-2">
+              Gráfico Evolutivo — Volume vs Crescimento
+            </h3>
+            <div id="chartVolumeEvolution" class="w-full h-80"></div>
+          </div>
+
+          <!-- Report do Mês Card (Volume) -->
+          <div class="lg:col-span-4 flex flex-col justify-center">
+            <div class="bg-gradient-to-br from-nexus-navy via-slate-900 to-indigo-950 rounded-2xl p-6 text-white shadow-lg border border-slate-800 space-y-4">
+              <div class="border-b border-white/10 pb-3 flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-300">📅 Report do Mês</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-200">Ago/26</span>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase font-bold text-indigo-200">Volume Mensal</div>
+                <div class="text-3xl font-extrabold text-white mt-1 font-montserrat" id="cardVolMonthVal">46 un</div>
+              </div>
+              <div class="space-y-2 pt-2 text-xs">
+                <div class="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl p-3">
+                  <span class="text-indigo-200">% MoM mês atual s/ mês ant.</span>
+                  <span class="font-bold text-emerald-400">+6.8%</span>
+                </div>
+                <div class="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl p-3">
+                  <span class="text-indigo-200">% YoY 26x25</span>
+                  <span class="font-bold text-emerald-400">+12.5%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Pivot Table Volume -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div class="flex items-center justify-between mb-3 border-l-4 border-blue-600 pl-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              Tabela Pivot de Volume (Unidades)
+            </h3>
+            <button onclick="exportTableCSV('volume')" class="text-xs flex items-center gap-1 text-blue-600 hover:underline">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar CSV
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse" id="tablePivotVolume">
+              <thead>
+                <tr class="bg-nexus-navy text-white text-[11px] uppercase font-semibold">
+                  <th class="py-2.5 px-3">Mês</th>
+                  <th class="py-2.5 px-3 text-right">2024</th>
+                  <th class="py-2.5 px-3 text-right">2025</th>
+                  <th class="py-2.5 px-3 text-right">2026</th>
+                  <th class="py-2.5 px-3 text-right">% MoM 25</th>
+                  <th class="py-2.5 px-3 text-right">% YoY 25x24</th>
+                  <th class="py-2.5 px-3 text-right">% YoY 26x25</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyVolumePivot" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium"></tbody>
+            </table>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-3">ℹ️ YTD: Acumulado de Janeiro a Agosto para todos os anos representados.</p>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: HISTÓRICO LINEAR (BASE) -->
+      <!-- ========================================== -->
+      <div id="tab-historico" class="space-y-4 hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-l-4 border-blue-600 pl-2">
+            <div>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Histórico Linear de Vendas (VALOR e VOLUME)
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Faturamento e quantidade acumulados mês a mês sob os filtros selecionados.</p>
+            </div>
+            <button onclick="exportLinearCSV()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors self-start sm:self-auto">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Dados
+            </button>
+          </div>
+
+          <div class="overflow-x-auto max-h-96">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead class="sticky top-0 bg-slate-100 dark:bg-slate-800">
+                <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold uppercase">
+                  <th class="py-2.5 px-3">Rótulos de Linha (Ano-Mês)</th>
+                  <th class="py-2.5 px-3 text-right">VALOR (Faturamento R$)</th>
+                  <th class="py-2.5 px-3 text-right">VOLUME (Quantidade un)</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyLinear" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Security & Compliance Disclaimer Footer -->
+    <footer class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 flex items-start gap-3 shadow-xs">
+      <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"></i>
+      <div>
+        <span class="font-bold text-slate-800 dark:text-slate-200">Aviso de Governança, Proteção de Dados (LGPD) e Portfólio:</span>
+        <p class="mt-0.5">
+          Este scorecard comercial foi gerado exclusivamente com <strong>dados 100% sintetizados e anonimizados</strong>. Valores delimitados rigorosamente entre R$ 1.000,00 e R$ 10.000,00 e volumetrias entre 1 e 50 unidades.
+        </p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 3. INTERACTIVE JAVASCRIPT ENGINE -->
+  <!-- ========================================== -->
+  <script>
+    lucide.createIcons();
+
+    // Theme Switcher
+    const themeBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let isDark = false;
+    themeBtn.addEventListener('click', () => {
+      isDark = !isDark;
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        themeIcon.setAttribute('data-lucide', 'sun');
+      } else {
+        document.documentElement.classList.remove('dark');
+        themeIcon.setAttribute('data-lucide', 'moon');
+      }
+      lucide.createIcons();
+      updateChartsTheme();
+    });
+
+    // Tab Switcher
+    function switchTab(tabId) {
+      ['tab-valor', 'tab-volume', 'tab-historico'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+
+      const btnValor = document.getElementById('btn-tab-valor');
+      const btnVolume = document.getElementById('btn-tab-volume');
+      const btnHist = document.getElementById('btn-tab-historico');
+
+      [btnValor, btnVolume, btnHist].forEach(btn => {
+        btn.className = "px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-all";
+      });
+
+      if (tabId === 'tab-valor') btnValor.className = "px-4 py-2 rounded-xl bg-blue-600 text-white shadow-xs flex items-center gap-1.5 transition-all font-semibold";
+      if (tabId === 'tab-volume') btnVolume.className = "px-4 py-2 rounded-xl bg-blue-600 text-white shadow-xs flex items-center gap-1.5 transition-all font-semibold";
+      if (tabId === 'tab-historico') btnHist.className = "px-4 py-2 rounded-xl bg-blue-600 text-white shadow-xs flex items-center gap-1.5 transition-all font-semibold";
+
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+    }
+
+    // Synthetic Monthly Aggregated Data
+    const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    
+    // Revenue Data
+    const rev2024 = [4200, 4350, 4600, 4500, 4900, 5100, 5300, 5400, 5600, 5800, 6200, 6800];
+    const rev2025 = [4800, 4950, 5300, 5200, 5700, 5950, 6200, 6450, 6700, 7100, 7500, 8200];
+    const rev2026 = [5600, 5850, 6300, 6150, 6900, 7150, 7450, 7840, 0, 0, 0, 0];
+
+    // Volume Data
+    const vol2024 = [26, 27, 29, 28, 31, 32, 33, 34, 35, 36, 38, 42];
+    const vol2025 = [29, 30, 32, 31, 35, 36, 38, 40, 41, 43, 45, 48];
+    const vol2026 = [34, 35, 38, 37, 41, 43, 44, 46, 0, 0, 0, 0];
+
+    // Populate Pivot Tables
+    function renderPivotTable(tbodyId, data24, data25, data26, isCurrency) {
+      const tbody = document.getElementById(tbodyId);
+      tbody.innerHTML = '';
+
+      let ytd24 = 0, ytd25 = 0, ytd26 = 0;
+      let tot24 = 0, tot25 = 0, tot26 = 0;
+
+      for (let i = 0; i < 12; i++) {
+        const v24 = data24[i];
+        const v25 = data25[i];
+        const v26 = data26[i];
+
+        tot24 += v24; tot25 += v25; tot26 += v26;
+        if (i < 8) { ytd24 += v24; ytd25 += v25; ytd26 += v26; }
+
+        const mom25 = i > 0 && data25[i-1] > 0 ? (((v25 - data25[i-1]) / data25[i-1]) * 100).toFixed(1) : '-';
+        const yoy25 = (((v25 - v24) / v24) * 100).toFixed(1);
+        const yoy26 = v26 > 0 ? (((v26 - v25) / v25) * 100).toFixed(1) : '-';
+
+        const fmt = (v) => v === 0 ? '-' : (isCurrency ? 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2}) : v + ' un');
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+            <td class="py-2.5 px-3 font-semibold text-slate-800 dark:text-slate-200">${months[i]}</td>
+            <td class="py-2.5 px-3 text-right font-mono">${fmt(v24)}</td>
+            <td class="py-2.5 px-3 text-right font-mono">${fmt(v25)}</td>
+            <td class="py-2.5 px-3 text-right font-mono font-bold ${v26 > 0 ? 'text-blue-600 dark:text-blue-400' : ''}">${fmt(v26)}</td>
+            <td class="py-2.5 px-3 text-right font-bold ${mom25 !== '-' && mom25 >= 0 ? 'text-emerald-600' : 'text-slate-400'}">${mom25 !== '-' ? mom25 + '%' : '-'}</td>
+            <td class="py-2.5 px-3 text-right font-bold ${yoy25 >= 0 ? 'text-emerald-600' : 'text-red-600'}">+${yoy25}%</td>
+            <td class="py-2.5 px-3 text-right font-bold ${yoy26 !== '-' ? 'text-emerald-600' : 'text-slate-400'}">${yoy26 !== '-' ? '+' + yoy26 + '%' : '-'}</td>
+          </tr>
+        `;
+      }
+
+      // Add YTD and Total Summary Rows
+      const ytdYoY25 = (((ytd25 - ytd24) / ytd24) * 100).toFixed(1);
+      const ytdYoY26 = (((ytd26 - ytd25) / ytd25) * 100).toFixed(1);
+      const totYoY25 = (((tot25 - tot24) / tot24) * 100).toFixed(1);
+
+      const fmtSum = (v) => isCurrency ? 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2}) : v + ' un';
+
+      tbody.innerHTML += `
+        <tr class="bg-blue-50/80 dark:bg-blue-950/40 font-bold border-t-2 border-blue-600 text-blue-900 dark:text-blue-200">
+          <td class="py-2.5 px-3">YTD (Jan–Ago)</td>
+          <td class="py-2.5 px-3 text-right font-mono">${fmtSum(ytd24)}</td>
+          <td class="py-2.5 px-3 text-right font-mono">${fmtSum(ytd25)}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-blue-600 dark:text-blue-400">${fmtSum(ytd26)}</td>
+          <td class="py-2.5 px-3 text-right">-</td>
+          <td class="py-2.5 px-3 text-right text-emerald-600">+${ytdYoY25}%</td>
+          <td class="py-2.5 px-3 text-right text-emerald-600">+${ytdYoY26}%</td>
+        </tr>
+        <tr class="bg-slate-100 dark:bg-slate-800 font-extrabold border-t border-slate-300 dark:border-slate-700">
+          <td class="py-2.5 px-3">Total Anual</td>
+          <td class="py-2.5 px-3 text-right font-mono">${fmtSum(tot24)}</td>
+          <td class="py-2.5 px-3 text-right font-mono">${fmtSum(tot25)}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-blue-600 dark:text-blue-400">${fmtSum(tot26)}</td>
+          <td class="py-2.5 px-3 text-right">-</td>
+          <td class="py-2.5 px-3 text-right text-emerald-600">+${totYoY25}%</td>
+          <td class="py-2.5 px-3 text-right">-</td>
+        </tr>
+      `;
+    }
+
+    renderPivotTable('tbodyRevenuePivot', rev2024, rev2025, rev2026, true);
+    renderPivotTable('tbodyVolumePivot', vol2024, vol2025, vol2026, false);
+
+    // Populate Linear History Table
+    const tbodyLin = document.getElementById('tbodyLinear');
+    for (let yr of [2024, 2025, 2026]) {
+      const maxM = yr === 2026 ? 8 : 12;
+      for (let m = 0; m < maxM; m++) {
+        const rev = yr === 2024 ? rev2024[m] : (yr === 2025 ? rev2025[m] : rev2026[m]);
+        const vol = yr === 2024 ? vol2024[m] : (yr === 2025 ? vol2025[m] : vol2026[m]);
+        const mStr = (m + 1) < 10 ? '0' + (m + 1) : (m + 1);
+        tbodyLin.innerHTML += `
+          <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+            <td class="py-2 px-3 font-mono font-semibold">${yr}-${mStr} (${months[m]}/${yr})</td>
+            <td class="py-2 px-3 text-right font-mono font-bold text-slate-800 dark:text-slate-200">R$ ${rev.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td class="py-2 px-3 text-right font-mono text-slate-600 dark:text-slate-400">${vol} un</td>
+          </tr>
+        `;
+      }
+    }
+
+    // ApexCharts: Revenue Evolution Chart (Grouped Bars 2024, 2025, 2026 + YoY Line)
+    const optionsRevenue = {
+      series: [
+        { name: '2024', type: 'column', data: rev2024 },
+        { name: '2025', type: 'column', data: rev2025 },
+        { name: '2026', type: 'column', data: [5600, 5850, 6300, 6150, 6900, 7150, 7450, 7840, null, null, null, null] },
+        { name: '% YoY 26x25', type: 'line', data: [16.7, 18.2, 18.9, 18.3, 21.1, 20.2, 20.2, 21.6, null, null, null, null] }
+      ],
+      chart: { height: 320, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
+      colors: ['#0B132B', '#FF9326', '#009B4D', '#0284C7'],
+      stroke: { width: [0, 0, 0, 3], curve: 'smooth' },
+      plotOptions: { bar: { columnWidth: '60%', borderRadius: 4 } },
+      xaxis: { categories: months },
+      yaxis: [
+        { labels: { formatter: (v) => 'R$ ' + (v ? v.toLocaleString('pt-BR') : '0') } },
+        { opposite: true, labels: { formatter: (v) => v ? v.toFixed(1) + '%' : '' } }
+      ],
+      legend: { position: 'top' },
+      tooltip: {
+        y: {
+          formatter: (v, { seriesIndex }) => seriesIndex === 3 ? (v ? v.toFixed(1) + '%' : '-') : ('R$ ' + (v ? v.toLocaleString('pt-BR', {minimumFractionDigits: 2}) : '-'))
+        }
+      }
+    };
+    const chartRevenue = new ApexCharts(document.querySelector("#chartRevenueEvolution"), optionsRevenue);
+    chartRevenue.render();
+
+    // ApexCharts: Volume Evolution Chart
+    const optionsVolume = {
+      series: [
+        { name: '2024', type: 'column', data: vol2024 },
+        { name: '2025', type: 'column', data: vol2025 },
+        { name: '2026', type: 'column', data: [34, 35, 38, 37, 41, 43, 44, 46, null, null, null, null] },
+        { name: '% YoY 26x25', type: 'line', data: [17.2, 16.7, 18.8, 19.4, 17.1, 19.4, 15.8, 15.0, null, null, null, null] }
+      ],
+      chart: { height: 320, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
+      colors: ['#0B132B', '#FF9326', '#0052CC', '#10B981'],
+      stroke: { width: [0, 0, 0, 3], curve: 'smooth' },
+      plotOptions: { bar: { columnWidth: '60%', borderRadius: 4 } },
+      xaxis: { categories: months },
+      yaxis: [
+        { labels: { formatter: (v) => v ? v + ' un' : '0' } },
+        { opposite: true, labels: { formatter: (v) => v ? v.toFixed(1) + '%' : '' } }
+      ],
+      legend: { position: 'top' },
+      tooltip: {
+        y: {
+          formatter: (v, { seriesIndex }) => seriesIndex === 3 ? (v ? v.toFixed(1) + '%' : '-') : (v ? v + ' un' : '-')
+        }
+      }
+    };
+    const chartVolume = new ApexCharts(document.querySelector("#chartVolumeEvolution"), optionsVolume);
+    chartVolume.render();
+
+    // Filtering Logic
+    function applyFilters() {
+      const sup = document.getElementById('selSupplier').value;
+      const ch = document.getElementById('selChannel').value;
+
+      let mult = 1.0;
+      if (sup !== 'ALL') mult *= 0.85;
+      if (ch !== 'ALL') mult *= 0.65;
+
+      const rev = (7840.00 * mult);
+      const rede = 9850.00;
+      const share = ((rev / rede) * 100).toFixed(1);
+
+      document.getElementById('kpiRevenueFiltered').innerText = 'R$ ' + rev.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+      document.getElementById('kpiShareRede').innerText = share + '%';
+      document.getElementById('cardRevMonthVal').innerText = 'R$ ' + rev.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+    }
+
+    function exportTableCSV(tipo) {
+      let csv = "Mes;2024;2025;2026\n";
+      const d24 = tipo === 'faturamento' ? rev2024 : vol2024;
+      const d25 = tipo === 'faturamento' ? rev2025 : vol2025;
+      const d26 = tipo === 'faturamento' ? rev2026 : vol2026;
+      for (let i = 0; i < 12; i++) {
+        csv += `${months[i]};${d24[i]};${d25[i]};${d26[i]}\n`;
+      }
+      downloadCSV(csv, `relatorio_${tipo}_scorecard_${new Date().toISOString().slice(0,10)}.csv`);
+    }
+
+    function exportLinearCSV() {
+      let csv = "AnoMes;Valor;Volume\n";
+      for (let yr of [2024, 2025, 2026]) {
+        const maxM = yr === 2026 ? 8 : 12;
+        for (let m = 0; m < maxM; m++) {
+          const rev = yr === 2024 ? rev2024[m] : (yr === 2025 ? rev2025[m] : rev2026[m]);
+          const vol = yr === 2024 ? vol2024[m] : (yr === 2025 ? vol2025[m] : vol2026[m]);
+          const mStr = (m + 1) < 10 ? '0' + (m + 1) : (m + 1);
+          csv += `${yr}-${mStr};${rev};${vol}\n`;
+        }
+      }
+      downloadCSV(csv, `historico_linear_${new Date().toISOString().slice(0,10)}.csv`);
+    }
+
+    function downloadCSV(csvContent, filename) {
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    }
+
+    function updateChartsTheme() {
+      const mode = isDark ? 'dark' : 'light';
+      chartRevenue.updateOptions({ theme: { mode } });
+      chartVolume.updateOptions({ theme: { mode } });
+    }
+  </script>
+</body>
+</html>

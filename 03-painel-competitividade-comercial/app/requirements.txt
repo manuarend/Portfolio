@@ -1,4 +1,4 @@
-# Dependências do Painel Estratégico de Compras - Farmácias São João
+# Dependências do Painel Estratégico de Competitividade Comercial - Nexus B2B
 streamlit>=1.35.0
 pandas>=2.0.0
 numpy>=1.26.0

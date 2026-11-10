@@ -1,79 +1,113 @@
 -- =============================================================================
--- PROJETO: Report Comercial de Fornecedor & Scorecard de Suprimentos
+-- PROJETO: Relatório Comercial Mensal de Fornecedores & Scorecard de Vendas
 -- AUTORA: Manuela Arend
--- OBJETIVO: Consultas analíticas para consolidação de compras, pontualidade (OTIF),
---           avarias e segmentação por Curva ABC de fornecedores industriais.
--- DIRETRIZ: Dados sintéticos | Fornecedores nos estados ES, RJ e SP
+-- OBJETIVO: Consultas analíticas para apuração de faturamento (VALOR), volumetria (VOLUME),
+--           comparações trienais (2024 x 2025 x 2026), variações YoY/MoM, YTD e Curva ABC.
+-- REGRAS: Dados 100% sintéticos | Valores entre R$ 1.000 e R$ 10.000 | Cobertura ES, RJ, SP
 -- =============================================================================
 
--- 1. Scorecard Executivo por Fornecedor (Volume, Compras, OTIF e SLA de Entrega)
-WITH cte_compras_fornecedor AS (
+-- 1. Pivot Mensal Trienal de Faturamento por Fornecedor (2024, 2025 e 2026)
+WITH cte_vendas_ano AS (
     SELECT 
-        fornecedor,
-        linha_fornecimento,
-        uf_origem,
-        COUNT(id_pedido) AS total_pedidos,
-        SUM(volume_lotes_un) AS volume_total_lotes,
-        SUM(valor_compras_brl) AS total_comprado_brl,
-        AVG(prazo_real_dias) AS lead_time_medio_dias,
-        -- % de Entregas No Prazo (On-Time)
-        ROUND(SUM(CASE WHEN prazo_real_dias <= prazo_acordado_dias THEN 1 ELSE 0 END) * 100.0 / COUNT(id_pedido), 1) AS taxa_on_time_pct,
-        -- % de Pedidos Conformes (In-Full)
-        ROUND(AVG(conforme_in_full_pct), 1) AS taxa_in_full_pct,
-        -- % de Sucesso OTIF (On-Time In-Full)
-        ROUND(SUM(indicador_otif) * 100.0 / COUNT(id_pedido), 1) AS taxa_otif_global_pct,
-        -- Taxa Média de Avarias/Devoluções
-        ROUND(AVG(taxa_avarias_pct), 2) AS taxa_media_avarias_pct
+        Laboratorio AS fornecedor,
+        SUBSTR(AnoMes, 6, 2) AS mes,
+        SUBSTR(AnoMes, 1, 4) AS ano,
+        SUM(`Valor Liquido`) AS faturamento_liquido
     FROM tb_report_fornecedor
-    GROUP BY fornecedor, linha_fornecimento, uf_origem
+    GROUP BY Laboratorio, SUBSTR(AnoMes, 6, 2), SUBSTR(AnoMes, 1, 4)
 )
 SELECT 
     fornecedor,
-    linha_fornecimento,
-    uf_origem,
-    total_pedidos,
-    volume_total_lotes,
-    total_comprado_brl,
-    ROUND(total_comprado_brl / total_pedidos, 2) AS ticket_medio_compra_brl,
-    lead_time_medio_dias,
-    taxa_on_time_pct,
-    taxa_in_full_pct,
-    taxa_otif_global_pct,
-    taxa_media_avarias_pct,
-    CASE 
-        WHEN taxa_otif_global_pct >= 85.0 THEN 'Fornecedor Nível A (Homologado Excelente)'
-        WHEN taxa_otif_global_pct >= 70.0 THEN 'Fornecedor Nível B (Operação Estável)'
-        ELSE 'Fornecedor Nível C (Necessita Plano de Ação)'
-    END AS classificacao_operacional
-FROM cte_compras_fornecedor
-ORDER BY total_comprado_brl DESC;
+    mes,
+    ROUND(SUM(CASE WHEN ano = '2024' THEN faturamento_liquido ELSE 0 END), 2) AS fat_2024,
+    ROUND(SUM(CASE WHEN ano = '2025' THEN faturamento_liquido ELSE 0 END), 2) AS fat_2025,
+    ROUND(SUM(CASE WHEN ano = '2026' THEN faturamento_liquido ELSE 0 END), 2) AS fat_2026,
+    -- Crescimento YoY 25x24 (%)
+    ROUND(
+        (SUM(CASE WHEN ano = '2025' THEN faturamento_liquido ELSE 0 END) - 
+         SUM(CASE WHEN ano = '2024' THEN faturamento_liquido ELSE 0 END)) * 100.0 /
+        NULLIF(SUM(CASE WHEN ano = '2024' THEN faturamento_liquido ELSE 0 END), 0), 1
+    ) AS yoy_25x24_pct,
+    -- Crescimento YoY 26x25 (%)
+    ROUND(
+        (SUM(CASE WHEN ano = '2026' THEN faturamento_liquido ELSE 0 END) - 
+         SUM(CASE WHEN ano = '2025' THEN faturamento_liquido ELSE 0 END)) * 100.0 /
+        NULLIF(SUM(CASE WHEN ano = '2025' THEN faturamento_liquido ELSE 0 END), 0), 1
+    ) AS yoy_26x25_pct
+FROM cte_vendas_ano
+GROUP BY fornecedor, mes
+ORDER BY fornecedor, mes;
 
--- 2. Análise da Curva ABC de Gastos com Fornecedores
-WITH cte_totais AS (
+-- 2. Apuração de YTD (Year-to-Date: Jan a Ago) e Aceleração Comercial
+WITH cte_ytd AS (
     SELECT 
-        fornecedor,
-        SUM(valor_compras_brl) AS gasto_total_fornecedor_brl
+        Laboratorio AS fornecedor,
+        SUBSTR(AnoMes, 1, 4) AS ano,
+        SUM(`Valor Liquido`) AS faturamento_ytd,
+        SUM(Quantidade) AS volume_ytd
     FROM tb_report_fornecedor
-    GROUP BY fornecedor
+    WHERE CAST(SUBSTR(AnoMes, 6, 2) AS INTEGER) <= 8
+    GROUP BY Laboratorio, SUBSTR(AnoMes, 1, 4)
+)
+SELECT 
+    fornecedor,
+    ROUND(SUM(CASE WHEN ano = '2024' THEN faturamento_ytd ELSE 0 END), 2) AS ytd_fat_2024,
+    ROUND(SUM(CASE WHEN ano = '2025' THEN faturamento_ytd ELSE 0 END), 2) AS ytd_fat_2025,
+    ROUND(SUM(CASE WHEN ano = '2026' THEN faturamento_ytd ELSE 0 END), 2) AS ytd_fat_2026,
+    -- Aceleração YTD 26x25
+    ROUND(
+        (SUM(CASE WHEN ano = '2026' THEN faturamento_ytd ELSE 0 END) - 
+         SUM(CASE WHEN ano = '2025' THEN faturamento_ytd ELSE 0 END)) * 100.0 /
+        NULLIF(SUM(CASE WHEN ano = '2025' THEN faturamento_ytd ELSE 0 END), 0), 1
+    ) AS ytd_crescimento_yoy_pct,
+    -- Volumetria
+    SUM(CASE WHEN ano = '2026' THEN volume_ytd ELSE 0 END) AS ytd_volume_2026_un
+FROM cte_ytd
+GROUP BY fornecedor
+ORDER BY ytd_fat_2026 DESC;
+
+-- 3. Segmentação de Produtos por Curva ABC de Faturamento
+WITH cte_produtos_acumulado AS (
+    SELECT 
+        Desc_Produto AS produto,
+        Laboratorio AS fornecedor,
+        SUM(`Valor Liquido`) AS faturamento_total,
+        SUM(Quantidade) AS volume_total
+    FROM tb_report_fornecedor
+    GROUP BY Desc_Produto, Laboratorio
 ),
-cte_acumulado AS (
+cte_pareto AS (
     SELECT 
+        produto,
         fornecedor,
-        gasto_total_fornecedor_brl,
-        SUM(gasto_total_fornecedor_brl) OVER (ORDER BY gasto_total_fornecedor_brl DESC) AS gasto_acumulado_brl,
-        SUM(gasto_total_fornecedor_brl) OVER () AS gasto_global_brl
-    FROM cte_totais
+        faturamento_total,
+        volume_total,
+        SUM(faturamento_total) OVER (ORDER BY faturamento_total DESC) AS fat_acumulado,
+        SUM(faturamento_total) OVER () AS fat_global
+    FROM cte_produtos_acumulado
 )
 SELECT 
+    produto,
     fornecedor,
-    gasto_total_fornecedor_brl,
-    ROUND((gasto_total_fornecedor_brl / gasto_global_brl) * 100.0, 2) AS representatividade_pct,
-    ROUND((gasto_acumulado_brl / gasto_global_brl) * 100.0, 2) AS percentual_acumulado_pct,
+    ROUND(faturamento_total, 2) AS faturamento_total_brl,
+    volume_total AS volume_total_un,
+    ROUND((faturamento_total / fat_global) * 100.0, 2) AS share_pct,
+    ROUND((fat_acumulado / fat_global) * 100.0, 2) AS acumulado_pct,
     CASE 
-        WHEN (gasto_acumulado_brl / gasto_global_brl) <= 0.70 THEN 'Curva A (Alta Relevância)'
-        WHEN (gasto_acumulado_brl / gasto_global_brl) <= 0.90 THEN 'Curva B (Média Relevância)'
-        ELSE 'Curva C (Cauda Longa)'
-    END AS classificacao_curva_abc
-FROM cte_acumulado
-ORDER BY gasto_total_fornecedor_brl DESC;
+        WHEN (fat_acumulado / fat_global) <= 0.70 THEN 'Classe A (Alto Impacto)'
+        WHEN (fat_acumulado / fat_global) <= 0.90 THEN 'Classe B (Intermediário)'
+        ELSE 'Classe C (Cauda Longa)'
+    END AS classificacao_abc
+FROM cte_pareto
+ORDER BY faturamento_total DESC;
 
+-- 4. Distribuição por Canal Omnichannel e Representatividade
+SELECT 
+    Canaldet AS canal_venda,
+    ROUND(SUM(`Valor Liquido`), 2) AS faturamento_total_brl,
+    SUM(Quantidade) AS volume_total_un,
+    ROUND(SUM(`Valor Liquido`) * 100.0 / SUM(SUM(`Valor Liquido`)) OVER(), 1) AS share_canal_pct
+FROM tb_report_fornecedor
+WHERE SUBSTR(AnoMes, 1, 4) = '2026'
+GROUP BY Canaldet
+ORDER BY faturamento_total_brl DESC;

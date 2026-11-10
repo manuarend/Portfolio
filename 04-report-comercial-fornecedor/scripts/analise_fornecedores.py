@@ -1,6 +1,6 @@
 """
 =============================================================================
-PROJETO: Report Comercial de Fornecedor & Scorecard de Suprimentos
+PROJETO: Relatório Comercial Mensal de Fornecedores & Scorecard de Vendas
 AUTORA: Manuela Arend
 REPOSITÓRIO: https://github.com/manuarend/Portfolio
 DIRETRIZ DE SEGURANÇA: Dados 100% sintetizados e anonimizados (LGPD / Sigilo)
@@ -11,103 +11,110 @@ import csv
 import os
 from collections import defaultdict
 
-def carregar_dados_fornecedores(caminho_csv):
-    """Carrega dados da base sintética de compras e entregas."""
+def carregar_base_fornecedor(caminho_csv):
+    """Carrega dados da base sintética de vendas e volumetria por fornecedor."""
     registros = []
     with open(caminho_csv, mode="r", encoding="utf-8") as arq:
-        leitor = csv.DictReader(arq)
+        leitor = csv.DictReader(arq, delimiter=";")
         for linha in leitor:
+            val_liq = float(linha["Valor Liquido"].replace(",", "."))
+            qtd = int(linha["Quantidade"])
+            anomes = linha["AnoMes"]
+            ano, mes = anomes.split("-")
+            
             registros.append({
-                "id_pedido": linha["id_pedido"],
-                "data_emissao": linha["data_emissao"],
-                "fornecedor": linha["fornecedor"],
-                "linha_fornecimento": linha["linha_fornecimento"],
-                "cidade_origem": linha["cidade_origem"],
-                "uf_origem": linha["uf_origem"],
-                "cidade_destino": linha["cidade_destino"],
-                "uf_destino": linha["uf_destino"],
-                "volume_lotes_un": int(linha["volume_lotes_un"]),
-                "valor_compras_brl": float(linha["valor_compras_brl"]),
-                "prazo_acordado_dias": int(linha["prazo_acordado_dias"]),
-                "prazo_real_dias": int(linha["prazo_real_dias"]),
-                "status_pontualidade": linha["status_pontualidade"],
-                "conforme_in_full_pct": float(linha["conforme_in_full_pct"]),
-                "indicador_otif": int(linha["indicador_otif"]),
-                "taxa_avarias_pct": float(linha["taxa_avarias_pct"]),
-                "classificacao_abc": linha["classificacao_abc"]
+                "produto_id": linha["Produto_ID"],
+                "ean": linha["CODBARRAS"],
+                "produto": linha["Desc_Produto"],
+                "fornecedor_id": linha["Laboratorio_ID"],
+                "fornecedor": linha["Laboratorio"],
+                "anomes": anomes,
+                "ano": int(ano),
+                "mes": int(mes),
+                "canal": linha["Canaldet"],
+                "valor_liquido": val_liq,
+                "quantidade": qtd
             })
     return registros
 
-def calcular_scorecard(dados):
-    """Agrega os indicadores de performance por fornecedor."""
-    scorecard = defaultdict(lambda: {
-        "pedidos": 0, "volume": 0, "valor_total": 0.0,
-        "on_time": 0, "conforme_sum": 0.0, "otif": 0,
-        "avarias_sum": 0.0, "prazos": [], "uf": ""
-    })
-    
+def consolidar_evolucao_trienal(dados):
+    """Calcula a evolução de faturamento e volume por ano (2024, 2025, 2026)."""
+    totais_ano = defaultdict(lambda: {"faturamento": 0.0, "volume": 0})
     for r in dados:
-        f = r["fornecedor"]
-        scorecard[f]["pedidos"] += 1
-        scorecard[f]["volume"] += r["volume_lotes_un"]
-        scorecard[f]["valor_total"] += r["valor_compras_brl"]
-        scorecard[f]["uf"] = r["uf_origem"]
-        if r["status_pontualidade"] in ("No Prazo", "Antecipado"):
-            scorecard[f]["on_time"] += 1
-        scorecard[f]["conforme_sum"] += r["conforme_in_full_pct"]
-        scorecard[f]["otif"] += r["indicador_otif"]
-        scorecard[f]["avarias_sum"] += r["taxa_avarias_pct"]
-        scorecard[f]["prazos"].append(r["prazo_real_dias"])
-        
-    resultado = []
-    for f, vals in scorecard.items():
-        n = vals["pedidos"]
-        otif_pct = (vals["otif"] / n * 100) if n else 0
-        on_time_pct = (vals["on_time"] / n * 100) if n else 0
-        in_full_pct = (vals["conforme_sum"] / n) if n else 0
-        avaria_med = (vals["avarias_sum"] / n) if n else 0
-        lead_time = sum(vals["prazos"]) / len(vals["prazos"]) if vals["prazos"] else 0
-        
-        resultado.append({
-            "fornecedor": f,
-            "uf": vals["uf"],
-            "total_pedidos": n,
-            "volume_lotes": vals["volume"],
-            "valor_compras_brl": round(vals["valor_total"], 2),
-            "lead_time_medio": round(lead_time, 1),
-            "on_time_pct": round(on_time_pct, 1),
-            "in_full_pct": round(in_full_pct, 1),
-            "otif_pct": round(otif_pct, 1),
-            "avaria_media_pct": round(avaria_med, 2)
-        })
-    return sorted(resultado, key=lambda x: x["valor_compras_brl"], reverse=True)
+        totais_ano[r["ano"]]["faturamento"] += r["valor_liquido"]
+        totais_ano[r["ano"]]["volume"] += r["quantidade"]
+    return totais_ano
 
-def exibir_relatorio(caminho_csv):
-    print("=" * 90)
-    print("📋 REPORT COMERCIAL DE FORNECEDORES & INDICADORES DE SUPRIMENTOS (OTIF)")
-    print("Base: Dados sintéticos (Indústrias de ES/RJ/SP | Compras R$ 1.000 a R$ 10.000)")
-    print("=" * 90)
+def calcular_ytd_fornecedor(dados, mes_corte=8):
+    """Calcula indicadores de Year-to-Date (YTD) e crescimento por fornecedor."""
+    scorecard = defaultdict(lambda: {
+        "fat_2024": 0.0, "fat_2025": 0.0, "fat_2026": 0.0,
+        "vol_2024": 0, "vol_2025": 0, "vol_2026": 0
+    })
+
+    for r in dados:
+        if r["mes"] <= mes_corte:
+            f = r["fornecedor"]
+            ano = r["ano"]
+            if ano == 2024:
+                scorecard[f]["fat_2024"] += r["valor_liquido"]
+                scorecard[f]["vol_2024"] += r["quantidade"]
+            elif ano == 2025:
+                scorecard[f]["fat_2025"] += r["valor_liquido"]
+                scorecard[f]["vol_2025"] += r["quantidade"]
+            elif ano == 2026:
+                scorecard[f]["fat_2026"] += r["valor_liquido"]
+                scorecard[f]["vol_2026"] += r["quantidade"]
+
+    resultados = []
+    for f, kpis in scorecard.items():
+        yoy_25x24 = ((kpis["fat_2025"] - kpis["fat_2024"]) / kpis["fat_2024"] * 100) if kpis["fat_2024"] > 0 else 0.0
+        yoy_26x25 = ((kpis["fat_2026"] - kpis["fat_2025"]) / kpis["fat_2025"] * 100) if kpis["fat_2025"] > 0 else 0.0
+
+        resultados.append({
+            "fornecedor": f,
+            "ytd_fat_2024": kpis["fat_2024"],
+            "ytd_fat_2025": kpis["fat_2025"],
+            "ytd_fat_2026": kpis["fat_2026"],
+            "yoy_25x24_pct": round(yoy_25x24, 1),
+            "yoy_26x25_pct": round(yoy_26x25, 1),
+            "ytd_vol_2026": kpis["vol_2026"]
+        })
+
+    return sorted(resultados, key=lambda x: x["ytd_fat_2026"], reverse=True)
+
+def main():
+    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+    caminho_csv = os.path.join(diretorio_atual, "..", "data", "report_fornecedor_sintetico.csv")
     
-    dados = carregar_dados_fornecedores(caminho_csv)
-    total_gasto = sum(r["valor_compras_brl"] for r in dados)
-    total_pedidos = len(dados)
-    otif_global = (sum(r["indicador_otif"] for r in dados) / total_pedidos * 100) if total_pedidos else 0
-    avaria_global = sum(r["taxa_avarias_pct"] for r in dados) / total_pedidos if total_pedidos else 0
-    
-    print("\n📦 1. RESUMO CONSOLIDADO DE COMPRAS E NÍVEL DE SERVIÇO")
-    print(f"  • Total Comprado (Gastos):     R$ {total_gasto:,.2f}")
-    print(f"  • Pedidos de Compras Emitidos: {total_pedidos} ordens")
-    print(f"  • Índice OTIF Consolidado:     {otif_global:.1f}%")
-    print(f"  • Taxa Média de Avarias:       {avaria_global:.2f}%")
-    
-    print("\n🏢 2. SCORECARD DE FORNECEDORES (CLASSIFICAÇÃO DE GASTOS E SLA)")
-    print(f"{'Fornecedor':<30} | {'UF':<3} | {'Compras (R$)':<13} | {'Lead Time':<9} | {'OTIF (%)':<9} | {'Avaria (%)'}")
-    print("-" * 88)
-    for s in calcular_scorecard(dados):
-        print(f"{s['fornecedor']:<30} | {s['uf']:<3} | R$ {s['valor_compras_brl']:<10,.2f} | {s['lead_time_medio']:>7.1f} d | {s['otif_pct']:>7.1f}% | {s['avaria_media_pct']:>9.2f}%")
+    if not os.path.exists(caminho_csv):
+        print(f"Arquivo CSV não encontrado em: {caminho_csv}")
+        return
+
+    dados = carregar_base_fornecedor(caminho_csv)
+    print(f"Base carregada com sucesso: {len(dados)} registros analisados.\n")
+
+    # Consolidação Trienal
+    totais = consolidar_evolucao_trienal(dados)
+    print("=" * 70)
+    print("RESUMO TRIENAL DE VENDAS — REDE NEXUS B2B")
+    print("=" * 70)
+    for ano in sorted(totais.keys()):
+        fat = totais[ano]["faturamento"]
+        vol = totais[ano]["volume"]
+        print(f"Ano {ano}: Faturamento = R$ {fat:,.2f} | Volume = {vol:,} un")
+    print("-" * 70)
+
+    # Scorecard YTD por Fornecedor
+    ytd_fornecedores = calcular_ytd_fornecedor(dados, mes_corte=8)
+    print("\n" + "=" * 70)
+    print("DESEMPENHO YTD (JAN-AGO) POR FORNECEDOR / INDÚSTRIA")
+    print("=" * 70)
+    for f in ytd_fornecedores:
+        print(f"Fornecedor: {f['fornecedor']}")
+        print(f"  - YTD 2026: R$ {f['ytd_fat_2026']:,.2f} | Vol: {f['ytd_vol_2026']} un")
+        print(f"  - Crescimento YoY 26x25: +{f['yoy_26x25_pct']}% | YoY 25x24: +{f['yoy_25x24_pct']}%")
+        print("-" * 70)
 
 if __name__ == "__main__":
-    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
-    caminho = os.path.join(diretorio_atual, "..", "data", "report_fornecedor_sintetico.csv")
-    exibir_relatorio(caminho)
-
+    main()
