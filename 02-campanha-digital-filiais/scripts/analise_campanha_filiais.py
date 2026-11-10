@@ -145,3 +145,4 @@ if __name__ == "__main__":
     diretorio_atual = os.path.dirname(os.path.abspath(__file__))
     caminho = os.path.join(diretorio_atual, "..", "data", "campanha_digital_filiais_sintetico.csv")
     exibir_dashboard(caminho)
+

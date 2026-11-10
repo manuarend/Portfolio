@@ -76,3 +76,4 @@ SELECT
     END AS classificacao_curva_abc
 FROM cte_acumulado
 ORDER BY gasto_total_fornecedor_brl DESC;
+

@@ -71,3 +71,4 @@ SELECT
 FROM cte_dispersao_regional
 WHERE rank_maior_sobrepreco <= 3
 ORDER BY uf_mercado, rank_maior_sobrepreco;
+

@@ -67,3 +67,4 @@ python analise_campanha_filiais.py
 ## 💡 Insights e Ações Recomendadas
 - **Alavancagem do WhatsApp Corporativo:** O canal apresenta a maior taxa de conversão direta, justificando treinamentos de atendimento rápido para as equipes de vendas internas das filiais.
 - **Plano de Recuperação para Filiais Abaixo de 85%:** Identificação de filiais que demandam apoio com promoções locais e reforço de portfólio para atingir a meta no fechamento do mês.
+

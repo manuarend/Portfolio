@@ -1,0 +1,44 @@
+// =============================================================================
+// PROJETO: Campanha Digital Mensal das Filiais - Medidas DAX para Power BI
+// AUTORA: Manuela Arend
+// =============================================================================
+
+// 1. Total de Faturamento Gerado pela Campanha
+[Faturamento Campanha] = 
+SUM(fCampanhaFiliais[faturamento_realizado_brl])
+
+// 2. Meta de Faturamento da Filial
+[Meta Faturamento Filial] = 
+SUM(fCampanhaFiliais[meta_faturamento_brl])
+
+// 3. % Atingimento da Campanha
+[% Atingimento Filial] = 
+DIVIDE([Faturamento Campanha], [Meta Faturamento Filial], BLANK())
+
+// 4. Volume de Leads Digitais Gerados
+[Total Leads] = 
+SUM(fCampanhaFiliais[leads_gerados])
+
+// 5. Volume de Pedidos Fechados
+[Pedidos Convertidos] = 
+SUM(fCampanhaFiliais[pedidos_convertidos])
+
+// 6. Taxa Média de Conversão de Leads (%)
+[Taxa Conversão Leads %] = 
+DIVIDE([Pedidos Convertidos], [Total Leads], 0)
+
+// 7. Investimento Total em Mídia de Performance
+[Investimento Mídia] = 
+SUM(fCampanhaFiliais[investimento_midia_brl])
+
+// 8. ROAS (Return on Ad Spend)
+[ROAS da Campanha] = 
+DIVIDE([Faturamento Campanha], [Investimento Mídia], BLANK())
+
+// 9. Ticket Médio das Vendas da Campanha
+[Ticket Médio R$] = 
+DIVIDE([Faturamento Campanha], [Pedidos Convertidos], BLANK())
+
+// 10. Custo de Aquisição por Pedido (CAC Sintético)
+[Custo Aquisição por Pedido R$] = 
+DIVIDE([Investimento Mídia], [Pedidos Convertidos], BLANK())

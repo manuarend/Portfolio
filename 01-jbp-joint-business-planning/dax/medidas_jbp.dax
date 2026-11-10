@@ -1,0 +1,54 @@
+// =============================================================================
+// PROJETO: Joint Business Planning (JBP) - Medidas DAX para Power BI
+// AUTORA: Manuela Arend
+// =============================================================================
+
+// 1. Faturamento Realizado Consolidado
+[Faturamento Realizado] = 
+SUM(fAcordosJBP[faturamento_realizado])
+
+// 2. Meta Financeira Contratual
+[Meta Faturamento] = 
+SUM(fAcordosJBP[meta_faturamento])
+
+// 3. Percentual de Atingimento da Meta
+[% Atingimento Meta] = 
+DIVIDE([Faturamento Realizado], [Meta Faturamento], BLANK())
+
+// 4. Gap Financeiro (Superávit / Déficit)
+[Gap Financeiro] = 
+[Faturamento Realizado] - [Meta Faturamento]
+
+// 5. Volume Total Realizado (Unidades / Lotes)
+[Volume Realizado] = 
+SUM(fAcordosJBP[volume_realizado])
+
+// 6. Meta de Volume
+[Volume Planejado] = 
+SUM(fAcordosJBP[volume_planejado])
+
+// 7. Aderência de Volume (%)
+[% Aderência Volume] = 
+DIVIDE([Volume Realizado], [Volume Planejado], BLANK())
+
+// 8. Investimento em Verba Cooperada
+[Total Verba Cooperada] = 
+SUM(fAcordosJBP[verba_cooperada])
+
+// 9. Índice de Alavancagem da Verba (ROI JBP)
+[Alavancagem Verba Ratio] = 
+DIVIDE([Faturamento Realizado], [Total Verba Cooperada], BLANK())
+
+// 10. SLA Logístico Médio Ponderado
+[SLA Médio Entrega %] = 
+AVERAGE(fAcordosJBP[sla_entrega_pct])
+
+// 11. Formatação Condicional de Cor para Cards e Gráficos
+[Status Cor Executiva] = 
+SWITCH(
+    TRUE(),
+    [% Atingimento Meta] >= 1.05, "#27AE60", // Verde: Superado
+    [% Atingimento Meta] >= 0.95, "#2980B9", // Azul: No Alvo
+    [% Atingimento Meta] >= 0.88, "#F39C12", // Laranja: Abaixo do Alvo
+    "#C0392B"                                // Vermelho: Atenção Crítica
+)

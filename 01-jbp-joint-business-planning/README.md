@@ -68,3 +68,4 @@ python analise_jbp.py
 1. **Revisão Trimestral dos Acordos (QBR):** Fornecedores com atingimento abaixo de 90% e SLA comprometido devem entrar em plano de ação imediato antes do encerramento do semestre.
 2. **Realocação Inteligente de Verba Cooperada:** Direcionar investimentos de marketing conjunto para as categorias e regiões com maior taxa de conversão em faturamento incremental (maior alavancagem de ROI).
 3. **Integração com Suprimentos:** Otimizar pedidos conjuntos nos polos de Vitória (ES), Volta Redonda (RJ) e Campinas (SP) para maximizar o volume consolidado e obter melhores faixas de desconto.
+

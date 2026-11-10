@@ -66,3 +66,4 @@ O dataset sintético está em [`data/competitividade_comercial_sintetico.csv`](d
 ## 💡 Recomendações Estratégicas
 - **Elasticidade Cruzada:** Para SKUs da categoria *Fixadores Industriais*, onde o Price Index médio é inferior a 95%, há margem para recomposição de até 3% no preço médio sem risco de perda de share.
 - **Equalização Interestadual:** Revisão das regras de frete e tabela de preços entre as filiais de São Paulo e Rio de Janeiro para conter a dispersão de preços que incentiva o cliente a triangular compras entre praças.
+

@@ -67,3 +67,4 @@ O dataset sintético está em [`data/report_fornecedor_sintetico.csv`](data/repo
 ## 💡 Insights e Ações Recomendadas
 - **Renegociação de SLAs:** Fornecedores com OTIF abaixo de 75% devem ter seus prazos de lead time repensados para evitar falta de material no estoque.
 - **Consolidação de Pedidos por Polo:** Aproveitar a proximidade geográfica de polos industriais (como Vitória/Serra no ES e Volta Redonda no RJ) para consolidar fretes e reduzir custos logísticos de recebimento.
+
