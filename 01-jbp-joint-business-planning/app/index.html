@@ -1,18 +1,492 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Painel Digital JBP | Nexus Distribuição & Varejo B2B</title>
-    <!-- Google Fonts: Montserrat & Inter (CRM - V4 Standard) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-slate-50 text-slate-900 antialiased font-sans min-h-screen selection:bg-red-600 selection:text-white transition-colors duration-200">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Executivo JBP | Nexus Distribuição & Varejo B2B</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- ApexCharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .dark .card-glass {
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200">
 
+  <!-- Top Navigation Bar -->
+  <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+          <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white">NEXUS VAREJO & DISTRIBUIÇÃO B2B</h1>
+            <span class="text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 px-2 py-0.5 rounded-full uppercase tracking-wider">JBP Executivo</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Polos Regionais: Espírito Santo, Rio de Janeiro e São Paulo</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Live Demo Badge -->
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Painel Interativo 100% Funcional
+        </span>
+
+        <!-- Theme Toggle Button -->
+        <button id="themeToggle" class="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 transition-colors" title="Alternar tema Claro/Escuro">
+          <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+
+        <a href="https://github.com/manuarend/Portfolio" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition-opacity">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter Controls Ribbon -->
+  <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        
+        <!-- Fornecedor / Indústria -->
+        <div>
+          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">🏢 Indústria Parceira</label>
+          <select id="selSupplier" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="ALL">Todas as Indústrias (Consolidado)</option>
+            <option value="Eurofarma">Eurofarma Laboratórios</option>
+            <option value="EMS">EMS Pharma & Indústria</option>
+            <option value="Aché">Aché Laboratórios</option>
+            <option value="Sanofi">Sanofi Brasil</option>
+            <option value="Bayer">Bayer Saúde & Consumo</option>
+            <option value="Hypera">Hypera Pharma</option>
+          </select>
+        </div>
+
+        <!-- UF / Praça -->
+        <div>
+          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">🗺️ Praça / Estado (UF)</label>
+          <select id="selUF" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="ALL">Todos os Polos (ES, RJ, SP)</option>
+            <option value="ES">Espírito Santo (Vitória / Serra)</option>
+            <option value="RJ">Rio de Janeiro (Capital / Macaé / Volta Redonda)</option>
+            <option value="SP">São Paulo (Capital / Campinas / Santos)</option>
+          </select>
+        </div>
+
+        <!-- Canal de Venda -->
+        <div>
+          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">🛒 Canal de Venda</label>
+          <select id="selChannel" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="ALL">Mix Geral (Omnichannel)</option>
+            <option value="DIGITAL">Canais Digitais (App, Site & Mktp)</option>
+            <option value="FISICO">Lojas Físicas</option>
+            <option value="TELEVENDAS">Televendas Corporativo</option>
+          </select>
+        </div>
+
+        <!-- Período -->
+        <div>
+          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">📅 Período de Referência</label>
+          <select id="selPeriod" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="Q3-2026">Fechamento Recente (Q3 2026)</option>
+            <option value="YTD-2026">Acumulado do Ano (YTD 2026)</option>
+            <option value="Q2-2026">Trimestre Anterior (Q2 2026)</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- KPI Cards Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Card 1: Faturamento -->
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Faturamento Realizado</span>
+          <div class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+            <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiRevenue">R$ 8.940,00</div>
+        <div class="flex items-center gap-2 mt-2 text-xs">
+          <span class="inline-flex items-center font-bold text-emerald-600 dark:text-emerald-400">
+            <i data-lucide="trending-up" class="w-3.5 h-3.5 mr-0.5"></i>
+            +14.2% YoY
+          </span>
+          <span class="text-slate-400">vs meta acordada</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Atingimento de Metas -->
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Atingimento do JBP</span>
+          <div class="p-2 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
+            <i data-lucide="target" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiTarget">106.8%</div>
+        <div class="flex items-center gap-2 mt-2 text-xs">
+          <span class="px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+            Superado (+R$ 570)
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 3: Digital Share -->
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Participação Digital</span>
+          <div class="p-2 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+            <i data-lucide="smartphone" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiDigitalShare">38.4%</div>
+        <div class="flex items-center gap-2 mt-2 text-xs">
+          <span class="inline-flex items-center font-bold text-emerald-600 dark:text-emerald-400">
+            <i data-lucide="trending-up" class="w-3.5 h-3.5 mr-0.5"></i>
+            +6.1 p.p. vs 2025
+          </span>
+          <span class="text-slate-400">App + Site</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Alavancagem da Verba (ROI) -->
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Alavancagem de Verba</span>
+          <div class="p-2 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiRoi">4.82x</div>
+        <div class="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
+          <span>SLA Médio de Entrega: <strong class="text-slate-800 dark:text-slate-200">96.5%</strong></span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Charts Row 1: Time Series & Channels -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Chart: Monthly Revenue Comparison (2 cols) -->
+      <div class="card-glass rounded-2xl p-5 lg:col-span-2">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Evolução Mensal do Faturamento: Rede vs Digital</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Comparativo histórico de desempenho e penetração dos canais digitais</p>
+          </div>
+          <span class="text-xs text-slate-400">Valores em R$</span>
+        </div>
+        <div id="chartEvolution" class="w-full h-72"></div>
+      </div>
+
+      <!-- Chart: Channel Mix (1 col) -->
+      <div class="card-glass rounded-2xl p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Mix de Canais de Venda</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Distribuição percentual da receita</p>
+          </div>
+        </div>
+        <div id="chartChannelMix" class="w-full h-72 flex items-center justify-center"></div>
+      </div>
+
+    </div>
+
+    <!-- Charts Row 2: Regional Performance & Supplier Scorecard -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Chart: Regional Performance (ES / RJ / SP) -->
+      <div class="card-glass rounded-2xl p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Desempenho por Polo Regional (ES, RJ e SP)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Faturamento acumulado por cidade polo</p>
+          </div>
+        </div>
+        <div id="chartRegional" class="w-full h-72"></div>
+      </div>
+
+      <!-- Chart: Supplier Performance Matrix -->
+      <div class="card-glass rounded-2xl p-5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Atingimento de Meta por Indústria (%)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Percentual de cumprimento dos acordos de JBP</p>
+          </div>
+        </div>
+        <div id="chartSuppliers" class="w-full h-72"></div>
+      </div>
+
+    </div>
+
+    <!-- Data Table Section -->
+    <div class="card-glass rounded-2xl p-5">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white">Detalhamento de Acordos de JBP & Entregas</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Base sintética de acompanhamento operacional (amostra representativa)</p>
+        </div>
+        <button id="btnExport" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Exportar CSV</span>
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
+              <th class="py-2.5 px-3">Acordo</th>
+              <th class="py-2.5 px-3">Indústria Parceira</th>
+              <th class="py-2.5 px-3">Linha / Categoria</th>
+              <th class="py-2.5 px-3">Polo / UF</th>
+              <th class="py-2.5 px-3">Volume (un)</th>
+              <th class="py-2.5 px-3">Faturamento</th>
+              <th class="py-2.5 px-3">Ating. (%)</th>
+              <th class="py-2.5 px-3">SLA (%)</th>
+              <th class="py-2.5 px-3">Status JBP</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium">
+            <!-- Populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Security & LGPD Disclaimer Banner -->
+    <div class="p-4 rounded-xl bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 flex items-start gap-3">
+      <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"></i>
+      <div>
+        <p class="font-semibold text-slate-700 dark:text-slate-300">Aviso de Conformidade e Proteção de Dados (LGPD):</p>
+        <p>Todos os valores monetários (delimitados entre R$ 1.000,00 e R$ 10.000,00) e volumes (1 a 50 unidades) apresentados neste painel são <strong>100% fictícios e sintetizados</strong>. Cidades e polos concentram-se exclusivamente nos estados de Espírito Santo (ES), Rio de Janeiro (RJ) e São Paulo (SP). Nenhuma métrica real ou proporcional de empresas anteriores foi utilizada.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Theme Toggle Handler
+    const themeBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let isDark = false;
+
+    themeBtn.addEventListener('click', () => {
+      isDark = !isDark;
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        themeIcon.setAttribute('data-lucide', 'sun');
+      } else {
+        document.documentElement.classList.remove('dark');
+        themeIcon.setAttribute('data-lucide', 'moon');
+      }
+      lucide.createIcons();
+      updateChartsTheme();
+    });
+
+    // Synthetic Dataset for Demonstration
+    const syntheticData = [
+      { id: "JBP-0101", ind: "Eurofarma Laboratórios", cat: "Saúde & Vitalidade", city: "Vitória", uf: "ES", vol: 38, rev: 8940.00, target: 8200.00, sla: 97.4, status: "Superado" },
+      { id: "JBP-0102", ind: "EMS Pharma & Indústria", cat: "Especialidades Clínicas", city: "Serra", uf: "ES", vol: 42, rev: 9450.00, target: 9100.00, sla: 96.1, status: "Superado" },
+      { id: "JBP-0103", ind: "Aché Laboratórios", cat: "Cuidados Diários", city: "Rio de Janeiro", uf: "RJ", vol: 29, rev: 6720.00, target: 7000.00, sla: 95.8, status: "No Alvo" },
+      { id: "JBP-0104", ind: "Sanofi Brasil", cat: "Imunologia & Vacinas", city: "Macaé", uf: "RJ", vol: 34, rev: 7850.00, target: 7500.00, sla: 98.2, status: "Superado" },
+      { id: "JBP-0105", ind: "Bayer Saúde & Consumo", cat: "Dermocosméticos", city: "Volta Redonda", uf: "RJ", vol: 25, rev: 5980.00, target: 6400.00, sla: 94.0, status: "No Alvo" },
+      { id: "JBP-0106", ind: "Hypera Pharma", cat: "Vitaminas & Nutrição", city: "São Paulo", uf: "SP", vol: 45, rev: 9820.00, target: 9200.00, sla: 98.5, status: "Superado" },
+      { id: "JBP-0107", ind: "Eurofarma Laboratórios", cat: "Genéricos Premium", city: "Campinas", uf: "SP", vol: 31, rev: 7150.00, target: 7300.00, sla: 96.0, status: "No Alvo" },
+      { id: "JBP-0108", ind: "EMS Pharma & Indústria", cat: "Linha Hospitalar", city: "Santos", uf: "SP", vol: 39, rev: 8640.00, target: 8100.00, sla: 97.0, status: "Superado" }
+    ];
+
+    // Populate Table
+    function renderTable(rows) {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      rows.forEach(r => {
+        const ating = ((r.rev / r.target) * 100).toFixed(1);
+        const statusBadge = r.status === 'Superado'
+          ? '<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Superado</span>'
+          : '<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">No Alvo</span>';
+        
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
+            <td class="py-2.5 px-3 font-mono text-[11px] text-slate-500">${r.id}</td>
+            <td class="py-2.5 px-3 font-semibold text-slate-800 dark:text-slate-200">${r.ind}</td>
+            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-400">${r.cat}</td>
+            <td class="py-2.5 px-3">${r.city} (${r.uf})</td>
+            <td class="py-2.5 px-3 font-mono">${r.vol} un</td>
+            <td class="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">R$ ${r.rev.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td class="py-2.5 px-3 font-bold ${ating >= 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600'}">${ating}%</td>
+            <td class="py-2.5 px-3 font-mono">${r.sla}%</td>
+            <td class="py-2.5 px-3">${statusBadge}</td>
+          </tr>
+        `;
+      });
+    }
+
+    renderTable(syntheticData);
+
+    // ApexCharts: 1. Monthly Evolution
+    const optionsEvolution = {
+      series: [
+        { name: 'Faturamento Total (Rede)', data: [4500, 5200, 6100, 5800, 6900, 7400, 7900, 8400, 8940] },
+        { name: 'Faturamento Digital', data: [1200, 1500, 1950, 2100, 2600, 2900, 3150, 3350, 3432] }
+      ],
+      chart: { type: 'area', height: 280, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
+      colors: ['#059669', '#3b82f6'],
+      dataLabels: { enabled: false },
+      stroke: { curve: 'smooth', width: 2 },
+      fill: { type: 'gradient', gradient: { opacityFrom: 0.35, opacityTo: 0.05 } },
+      xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set'] },
+      tooltip: { y: { formatter: (val) => 'R$ ' + val.toLocaleString('pt-BR', {minimumFractionDigits: 2}) } }
+    };
+    const chartEvolution = new ApexCharts(document.querySelector("#chartEvolution"), optionsEvolution);
+    chartEvolution.render();
+
+    // ApexCharts: 2. Channel Mix Donut
+    const optionsChannels = {
+      series: [55.4, 22.8, 12.2, 5.6, 4.0],
+      labels: ['Loja Física', 'App Mobile', 'Site E-commerce', 'Marketplace', 'Televendas'],
+      chart: { type: 'donut', height: 280, fontFamily: 'Inter, sans-serif' },
+      colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'],
+      legend: { position: 'bottom' },
+      dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
+    };
+    const chartChannelMix = new ApexCharts(document.querySelector("#chartChannelMix"), optionsChannels);
+    chartChannelMix.render();
+
+    // ApexCharts: 3. Regional Performance Bar Chart
+    const optionsRegional = {
+      series: [{ name: 'Faturamento (R$)', data: [9820, 9450, 8940, 8640, 7850, 7150, 6720, 5980] }],
+      chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
+      colors: ['#059669'],
+      plotOptions: { bar: { borderRadius: 6, horizontal: true } },
+      dataLabels: { enabled: false },
+      xaxis: { categories: ['São Paulo/SP', 'Serra/ES', 'Vitória/ES', 'Santos/SP', 'Macaé/RJ', 'Campinas/SP', 'Rio de Janeiro/RJ', 'Volta Redonda/RJ'] },
+      tooltip: { y: { formatter: (val) => 'R$ ' + val.toLocaleString('pt-BR', {minimumFractionDigits: 2}) } }
+    };
+    const chartRegional = new ApexCharts(document.querySelector("#chartRegional"), optionsRegional);
+    chartRegional.render();
+
+    // ApexCharts: 4. Supplier Performance Bar Chart
+    const optionsSuppliers = {
+      series: [{ name: 'Atingimento (%)', data: [109.0, 106.7, 104.6, 103.8, 96.0, 93.4] }],
+      chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
+      colors: ['#3b82f6'],
+      plotOptions: { bar: { borderRadius: 6, columnWidth: '50%' } },
+      dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' },
+      xaxis: { categories: ['Eurofarma', 'Hypera', 'EMS Pharma', 'Sanofi', 'Aché', 'Bayer'] }
+    };
+    const chartSuppliers = new ApexCharts(document.querySelector("#chartSuppliers"), optionsSuppliers);
+    chartSuppliers.render();
+
+    // Dynamic Filtering Logic
+    const selSupplier = document.getElementById('selSupplier');
+    const selUF = document.getElementById('selUF');
+    
+    function applyFilters() {
+      const sVal = selSupplier.value;
+      const uVal = selUF.value;
+      
+      let filtered = syntheticData.filter(item => {
+        const matchSup = sVal === 'ALL' || item.ind.includes(sVal);
+        const matchUF = uVal === 'ALL' || item.uf === uVal;
+        return matchSup && matchUF;
+      });
+      
+      renderTable(filtered);
+      
+      // Update KPIs dynamically
+      if (filtered.length > 0) {
+        const totalRev = filtered.reduce((acc, cur) => acc + cur.rev, 0);
+        const totalTarget = filtered.reduce((acc, cur) => acc + cur.target, 0);
+        const ating = ((totalRev / totalTarget) * 100).toFixed(1);
+        
+        document.getElementById('kpiRevenue').innerText = 'R$ ' + totalRev.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('kpiTarget').innerText = ating + '%';
+      }
+    }
+
+    selSupplier.addEventListener('change', applyFilters);
+    selUF.addEventListener('change', applyFilters);
+
+    // Export Table to CSV
+    document.getElementById('btnExport').addEventListener('click', () => {
+      let csv = "ID;Industria;Categoria;Cidade;UF;Volume;Faturamento;Meta;SLA;Status\n";
+      syntheticData.forEach(r => {
+        csv += `${r.id};"${r.ind}";"${r.cat}";"${r.city}";${r.uf};${r.vol};${r.rev};${r.target};${r.sla};"${r.status}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `relatorio_jbp_executivo_${new Date().toISOString().slice(0,10)}.csv`;
+      link.click();
+    });
+
+    function updateChartsTheme() {
+      const themeMode = isDark ? 'dark' : 'light';
+      chartEvolution.updateOptions({ theme: { mode: themeMode } });
+      chartChannelMix.updateOptions({ theme: { mode: themeMode } });
+      chartRegional.updateOptions({ theme: { mode: themeMode } });
+      chartSuppliers.updateOptions({ theme: { mode: themeMode } });
+    }
+  </script>
+</body>
+</html>
