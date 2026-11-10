@@ -39,9 +39,9 @@ SUM(fAcordosJBP[verba_cooperada])
 [Alavancagem Verba Ratio] = 
 DIVIDE([Faturamento Realizado], [Total Verba Cooperada], BLANK())
 
-// 10. SLA Logístico Médio Ponderado
-[SLA Médio Entrega %] = 
-AVERAGE(fAcordosJBP[sla_entrega_pct])
+// 10. Digital Share (% de Participação Digital)
+[Digital Share %] = 
+DIVIDE(SUM(fAcordosJBP[faturamento_digital]), [Faturamento Realizado], 0)
 
 // 11. Formatação Condicional de Cor para Cards e Gráficos
 [Status Cor Executiva] = 

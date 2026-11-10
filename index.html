@@ -213,7 +213,7 @@
         </div>
         <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiRoi">4.82x</div>
         <div class="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
-          <span>SLA Médio de Entrega: <strong class="text-slate-800 dark:text-slate-200">96.5%</strong></span>
+          <span>Eficiência Comercial: <strong class="text-slate-800 dark:text-slate-200">Alto Retorno</strong></span>
         </div>
       </div>
 
@@ -298,7 +298,6 @@
               <th class="py-2.5 px-3">Volume (un)</th>
               <th class="py-2.5 px-3">Faturamento</th>
               <th class="py-2.5 px-3">Ating. (%)</th>
-              <th class="py-2.5 px-3">SLA (%)</th>
               <th class="py-2.5 px-3">Status JBP</th>
             </tr>
           </thead>
@@ -345,14 +344,14 @@
 
     // Synthetic Dataset for Demonstration
     const syntheticData = [
-      { id: "JBP-0101", ind: "Eurofarma Laboratórios", cat: "Saúde & Vitalidade", city: "Vitória", uf: "ES", vol: 38, rev: 8940.00, target: 8200.00, sla: 97.4, status: "Superado" },
-      { id: "JBP-0102", ind: "EMS Pharma & Indústria", cat: "Especialidades Clínicas", city: "Serra", uf: "ES", vol: 42, rev: 9450.00, target: 9100.00, sla: 96.1, status: "Superado" },
-      { id: "JBP-0103", ind: "Aché Laboratórios", cat: "Cuidados Diários", city: "Rio de Janeiro", uf: "RJ", vol: 29, rev: 6720.00, target: 7000.00, sla: 95.8, status: "No Alvo" },
-      { id: "JBP-0104", ind: "Sanofi Brasil", cat: "Imunologia & Vacinas", city: "Macaé", uf: "RJ", vol: 34, rev: 7850.00, target: 7500.00, sla: 98.2, status: "Superado" },
-      { id: "JBP-0105", ind: "Bayer Saúde & Consumo", cat: "Dermocosméticos", city: "Volta Redonda", uf: "RJ", vol: 25, rev: 5980.00, target: 6400.00, sla: 94.0, status: "No Alvo" },
-      { id: "JBP-0106", ind: "Hypera Pharma", cat: "Vitaminas & Nutrição", city: "São Paulo", uf: "SP", vol: 45, rev: 9820.00, target: 9200.00, sla: 98.5, status: "Superado" },
-      { id: "JBP-0107", ind: "Eurofarma Laboratórios", cat: "Genéricos Premium", city: "Campinas", uf: "SP", vol: 31, rev: 7150.00, target: 7300.00, sla: 96.0, status: "No Alvo" },
-      { id: "JBP-0108", ind: "EMS Pharma & Indústria", cat: "Linha Hospitalar", city: "Santos", uf: "SP", vol: 39, rev: 8640.00, target: 8100.00, sla: 97.0, status: "Superado" }
+      { id: "JBP-0101", ind: "Eurofarma Laboratórios", cat: "Saúde & Vitalidade", city: "Vitória", uf: "ES", vol: 38, rev: 8940.00, target: 8200.00, status: "Superado" },
+      { id: "JBP-0102", ind: "EMS Pharma & Indústria", cat: "Especialidades Clínicas", city: "Serra", uf: "ES", vol: 42, rev: 9450.00, target: 9100.00, status: "Superado" },
+      { id: "JBP-0103", ind: "Aché Laboratórios", cat: "Cuidados Diários", city: "Rio de Janeiro", uf: "RJ", vol: 29, rev: 6720.00, target: 7000.00, status: "No Alvo" },
+      { id: "JBP-0104", ind: "Sanofi Brasil", cat: "Imunologia & Vacinas", city: "Macaé", uf: "RJ", vol: 34, rev: 7850.00, target: 7500.00, status: "Superado" },
+      { id: "JBP-0105", ind: "Bayer Saúde & Consumo", cat: "Dermocosméticos", city: "Volta Redonda", uf: "RJ", vol: 25, rev: 5980.00, target: 6400.00, status: "No Alvo" },
+      { id: "JBP-0106", ind: "Hypera Pharma", cat: "Vitaminas & Nutrição", city: "São Paulo", uf: "SP", vol: 45, rev: 9820.00, target: 9200.00, status: "Superado" },
+      { id: "JBP-0107", ind: "Eurofarma Laboratórios", cat: "Genéricos Premium", city: "Campinas", uf: "SP", vol: 31, rev: 7150.00, target: 7300.00, status: "No Alvo" },
+      { id: "JBP-0108", ind: "EMS Pharma & Indústria", cat: "Linha Hospitalar", city: "Santos", uf: "SP", vol: 39, rev: 8640.00, target: 8100.00, status: "Superado" }
     ];
 
     // Populate Table
@@ -374,7 +373,6 @@
             <td class="py-2.5 px-3 font-mono">${r.vol} un</td>
             <td class="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">R$ ${r.rev.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
             <td class="py-2.5 px-3 font-bold ${ating >= 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600'}">${ating}%</td>
-            <td class="py-2.5 px-3 font-mono">${r.sla}%</td>
             <td class="py-2.5 px-3">${statusBadge}</td>
           </tr>
         `;
@@ -469,9 +467,9 @@
 
     // Export Table to CSV
     document.getElementById('btnExport').addEventListener('click', () => {
-      let csv = "ID;Industria;Categoria;Cidade;UF;Volume;Faturamento;Meta;SLA;Status\n";
+      let csv = "ID;Industria;Categoria;Cidade;UF;Volume;Faturamento;Meta;Status\n";
       syntheticData.forEach(r => {
-        csv += `${r.id};"${r.ind}";"${r.cat}";"${r.city}";${r.uf};${r.vol};${r.rev};${r.target};${r.sla};"${r.status}"\n`;
+        csv += `${r.id};"${r.ind}";"${r.cat}";"${r.city}";${r.uf};${r.vol};${r.rev};${r.target};"${r.status}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
@@ -490,3 +488,4 @@
   </script>
 </body>
 </html>
+

@@ -74,7 +74,7 @@ Dataset sintetizado com estrutura hierárquica por indústria, mês, categoria m
 | `meta_faturamento` | Decimal | Meta estipulada no plano | `R$ 6.500,00` |
 | `atingimento_pct` | Decimal | % de alcance da meta | `104.9%` |
 | `verba_cooperada` | Decimal | Investimento conjunto em marketing | `R$ 1.500,00` |
-| `sla_entrega_pct` | Decimal | Pontualidade de entrega | `96.4%` |
+| `crescimento_yoy_pct` | Decimal | Crescimento anual de vendas | `+14.2%` |
 
 ---
 
