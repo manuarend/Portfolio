@@ -1,105 +1,165 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Executivo JBP | Nexus Distribuição & Varejo B2B</title>
+  <title>Portal Executivo JBP 2026 | Nexus Varejo & Distribuição B2B</title>
+  
+  <!-- Google Fonts: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#ecfdf5',
-              500: '#10b981',
-              600: '#059669',
-              700: '#047857',
-              800: '#065f46'
-            }
-          }
-        }
-      }
-    }
-  </script>
   
   <!-- ApexCharts CDN -->
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .card-glass {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(226, 232, 240, 0.8);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif']
+          },
+          colors: {
+            jbp: {
+              green: '#009B4D',
+              greenDark: '#007A3D',
+              greenLight: '#E8F5E9',
+              blue: '#0052CC',
+              blueDark: '#0747A6',
+              blueLight: '#DEEBFF',
+              dark: '#0B132B',
+              sidebar: '#090D16',
+              red: '#E53E3E',
+              redLight: '#FFF5F5'
+            }
+          }
+        }
+      }
     }
-    .dark .card-glass {
-      background: rgba(17, 24, 39, 0.95);
-      border: 1px solid rgba(55, 65, 81, 0.8);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    
+    .card-shadow {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+    }
+    .badge-pulse {
+      animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
     }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200">
 
-  <!-- Top Navigation Bar -->
-  <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
-          <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white">NEXUS VAREJO & DISTRIBUIÇÃO B2B</h1>
-            <span class="text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 px-2 py-0.5 rounded-full uppercase tracking-wider">JBP Executivo</span>
-          </div>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Polos Regionais: Espírito Santo, Rio de Janeiro e São Paulo</p>
-        </div>
+<body class="bg-[#F8FAFC] dark:bg-[#070A12] text-slate-800 dark:text-slate-100 font-sans min-h-screen flex antialiased">
+
+  <!-- ========================================== -->
+  <!-- 1. LEFT NAVIGATION SIDEBAR (FIDELITY TO ORIGINAL) -->
+  <!-- ========================================== -->
+  <aside class="w-16 md:w-20 bg-jbp-sidebar flex flex-col items-center py-4 justify-between border-r border-slate-800 shrink-0 z-50 select-none">
+    
+    <!-- Top Branding & Navigation Icons -->
+    <div class="flex flex-col items-center gap-5 w-full">
+      <!-- Nexus Brand Logo Badge -->
+      <div class="w-10 h-10 md:w-11 md:h-11 rounded-2xl bg-gradient-to-br from-red-600 to-rose-700 flex items-center justify-center text-white font-extrabold text-sm md:text-base shadow-lg shadow-red-900/40 border border-red-400/30 tracking-tight" title="Nexus Varejo & Distribuição B2B">
+        NX
       </div>
 
-      <div class="flex items-center gap-3">
-        <!-- Live Demo Badge -->
-        <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Painel Interativo 100% Funcional
-        </span>
+      <div class="w-8 h-px bg-slate-800/80 my-1"></div>
 
-        <!-- Theme Toggle Button -->
-        <button id="themeToggle" class="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800 transition-colors" title="Alternar tema Claro/Escuro">
-          <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+      <!-- Nav Menu Items -->
+      <nav class="flex flex-col items-center gap-2.5 w-full px-2" id="sidebarNav">
+        <!-- Tab 1: Visão Geral / Dashboard (Grid) -->
+        <button onclick="switchTab('overview')" id="btn-tab-overview" class="nav-item w-11 h-11 rounded-2xl flex items-center justify-center transition-all bg-jbp-red text-white shadow-lg shadow-red-600/30" title="Visão Geral do Canal Digital & Rede">
+          <i data-lucide="layout-grid" class="w-5 h-5"></i>
         </button>
 
-        <a href="https://github.com/manuarend/Portfolio" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:opacity-90 transition-opacity">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          <span>GitHub</span>
-        </a>
-      </div>
-    </div>
-  </header>
+        <!-- Tab 2: Desempenho Linhas x Produtos (Layers) -->
+        <button onclick="switchTab('lines')" id="btn-tab-lines" class="nav-item w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/70 transition-all" title="Desempenho por Linha & Produtos">
+          <i data-lucide="layers" class="w-5 h-5"></i>
+        </button>
 
-  <!-- Filter Controls Ribbon -->
-  <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 py-3">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <!-- Tab 3: Rankings & Top Produtos (Shopping Bag) -->
+        <button onclick="switchTab('rankings')" id="btn-tab-rankings" class="nav-item w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/70 transition-all" title="Rankings de Produtos & Desempenho">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Tab 4: Polos Regionais (Map Pin) -->
+        <button onclick="switchTab('regions')" id="btn-tab-regions" class="nav-item w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/70 transition-all" title="Polos Regionais (ES, RJ, SP)">
+          <i data-lucide="map-pin" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Tab 5: Canais & Mix (Pie Chart) -->
+        <button onclick="switchTab('channels')" id="btn-tab-channels" class="nav-item w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/70 transition-all" title="Mix de Canais Omnichannel">
+          <i data-lucide="pie-chart" class="w-5 h-5"></i>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Bottom Actions: Live Status & Filters -->
+    <div class="flex flex-col items-center gap-3 w-full px-2">
+      <!-- Live Indicator (Antenna) -->
+      <div class="relative group cursor-pointer" title="Base Integrada Atualizada">
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors">
+          <i data-lucide="radio" class="w-5 h-5 text-emerald-400"></i>
+        </div>
+        <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-400 badge-pulse"></span>
+      </div>
+
+      <!-- Quick Reset Filter Button (Funnel) -->
+      <button onclick="resetFilters()" class="w-10 h-10 rounded-2xl flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-slate-800/60 transition-colors" title="Limpar Filtros Rápidos">
+        <i data-lucide="filter" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button id="themeToggle" class="w-10 h-10 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors" title="Alternar Modo Claro/Escuro">
+        <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- 2. MAIN APPLICATION CONTENT AREA -->
+  <!-- ========================================== -->
+  <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+
+    <!-- TOP FILTER PILLS BAR (IDENTICAL TO ORIGINAL SCREENSHOT) -->
+    <header class="bg-white/95 dark:bg-[#0B101D]/95 backdrop-blur border-b border-slate-200 dark:border-slate-800/80 px-4 md:px-8 py-3 sticky top-0 z-40 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+      
+      <!-- Filters Pill Row -->
+      <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs">
         
-        <!-- Fornecedor / Indústria -->
-        <div>
-          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">🏢 Indústria Parceira</label>
-          <select id="selSupplier" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="ALL">Todas as Indústrias (Consolidado)</option>
+        <!-- Pill 1: Período -->
+        <div class="relative">
+          <select id="filterPeriod" onchange="applyGlobalFilters()" class="appearance-none bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 border border-slate-200 dark:border-slate-700/80 rounded-full pl-8 pr-7 py-1.5 font-semibold text-slate-700 dark:text-slate-200 cursor-pointer outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+            <option value="2026-Q3">Período: Out/2026 vs. Out/2025 (YoY)</option>
+            <option value="2026-Q2">Período: Jun/2026 vs. Jun/2025 (YoY)</option>
+            <option value="2026-Q1">Período: Mar/2026 vs. Mar/2025 (YoY)</option>
+          </select>
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <!-- Pill 2: Fornecedor / Indústria -->
+        <div class="relative">
+          <select id="filterSupplier" onchange="applyGlobalFilters()" class="appearance-none bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 border border-slate-200 dark:border-slate-700/80 rounded-full pl-8 pr-7 py-1.5 font-semibold text-slate-700 dark:text-slate-200 cursor-pointer outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+            <option value="ALL">Fornecedor: Todas as Indústrias</option>
             <option value="Eurofarma">Eurofarma Laboratórios</option>
             <option value="EMS">EMS Pharma & Indústria</option>
             <option value="Aché">Aché Laboratórios</option>
@@ -107,229 +167,632 @@
             <option value="Bayer">Bayer Saúde & Consumo</option>
             <option value="Hypera">Hypera Pharma</option>
           </select>
+          <i data-lucide="building-2" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
 
-        <!-- UF / Praça -->
-        <div>
-          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">🗺️ Praça / Estado (UF)</label>
-          <select id="selUF" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="ALL">Todos os Polos (ES, RJ, SP)</option>
-            <option value="ES">Espírito Santo (Vitória / Serra)</option>
-            <option value="RJ">Rio de Janeiro (Capital / Macaé / Volta Redonda)</option>
-            <option value="SP">São Paulo (Capital / Campinas / Santos)</option>
+        <!-- Pill 3: Linha / Categoria -->
+        <div class="relative">
+          <select id="filterLine" onchange="applyGlobalFilters()" class="appearance-none bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 border border-slate-200 dark:border-slate-700/80 rounded-full pl-8 pr-7 py-1.5 font-semibold text-slate-700 dark:text-slate-200 cursor-pointer outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+            <option value="ALL">Linha: Todas as Linhas</option>
+            <option value="ANTIDIABETICOS">Antidiabéticos</option>
+            <option value="FRALDAS INFANTIS">Fraldas Infantis</option>
+            <option value="ANTIDEPRESSIVOS">Antidepressivos</option>
+            <option value="VITAMINAS">Vitaminas & Suplementos</option>
+            <option value="HOSPITALARES">Medicamentos Hospitalares</option>
+            <option value="ANTI-HIPERTENSIVOS">Anti-hipertensivos</option>
           </select>
+          <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
 
-        <!-- Canal de Venda -->
-        <div>
-          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">🛒 Canal de Venda</label>
-          <select id="selChannel" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="ALL">Mix Geral (Omnichannel)</option>
-            <option value="DIGITAL">Canais Digitais (App, Site & Mktp)</option>
-            <option value="FISICO">Lojas Físicas</option>
-            <option value="TELEVENDAS">Televendas Corporativo</option>
+        <!-- Pill 4: UF / Praça -->
+        <div class="relative">
+          <select id="filterUF" onchange="applyGlobalFilters()" class="appearance-none bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 border border-slate-200 dark:border-slate-700/80 rounded-full pl-8 pr-7 py-1.5 font-semibold text-slate-700 dark:text-slate-200 cursor-pointer outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+            <option value="ALL">UF: Todas as UFs (ES, RJ, SP)</option>
+            <option value="ES">Espírito Santo (ES)</option>
+            <option value="RJ">Rio de Janeiro (RJ)</option>
+            <option value="SP">São Paulo (SP)</option>
           </select>
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
         </div>
 
-        <!-- Período -->
-        <div>
-          <label class="block font-medium text-slate-600 dark:text-slate-400 mb-1">📅 Período de Referência</label>
-          <select id="selPeriod" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 outline-none">
-            <option value="Q3-2026">Fechamento Recente (Q3 2026)</option>
-            <option value="YTD-2026">Acumulado do Ano (YTD 2026)</option>
-            <option value="Q2-2026">Trimestre Anterior (Q2 2026)</option>
-          </select>
-        </div>
+        <!-- Pill 5: Botão Filtros JBP (Ação) -->
+        <button onclick="resetFilters()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-jbp-green hover:bg-jbp-greenDark text-white font-bold transition-colors shadow-xs">
+          <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+          <span>Filtros JBP</span>
+        </button>
 
       </div>
-    </div>
+
+      <!-- Right Link to GitHub & Status -->
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/manuarend/Portfolio" target="_blank" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors border border-slate-200 dark:border-slate-700">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+          <span>GitHub Repo</span>
+        </a>
+      </div>
+
+    </header>
+
+    <!-- MAIN BODY CONTAINER -->
+    <main class="p-4 md:p-8 space-y-6 flex-1 max-w-[1600px] w-full mx-auto">
+
+      <!-- ========================================== -->
+      <!-- VIEW 1: VISÃO GERAL DO CANAL DIGITAL & REDE -->
+      <!-- ========================================== -->
+      <section id="view-overview" class="space-y-6">
+
+        <!-- Title & Subtitle Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div>
+            <h1 class="text-xl md:text-2xl font-bold font-montserrat text-slate-900 dark:text-white flex items-center gap-2">
+              Visão Geral do Canal <span class="text-emerald-600 dark:text-emerald-400">Digital</span> & Rede
+            </h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              Nexus Distribuição & Varejo B2B & Indústrias Parceiras — Regra JBP: <strong class="text-slate-700 dark:text-slate-300">Rede = Loja Física + Televendas + Digital</strong>.
+            </p>
+          </div>
+          <div class="shrink-0">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Extraído via Base Unificada JBP 2026
+            </span>
+          </div>
+        </div>
+
+        <!-- THE 4 ICONIC KPI CARDS (ORIGINAL FIDELITY) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <!-- Card 1: FATURAMENTO TOTAL (Solid Emerald Green Card) -->
+          <div class="bg-jbp-green rounded-2xl p-5 text-white shadow-md relative overflow-hidden flex flex-col justify-between min-h-[145px]">
+            <div class="relative z-10">
+              <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-100 flex items-center justify-between">
+                <span>FATURAMENTO TOTAL</span>
+                <i data-lucide="trending-up" class="w-4 h-4 text-emerald-200"></i>
+              </div>
+              <div class="text-2xl md:text-3xl font-extrabold tracking-tight mt-2 font-montserrat" id="kpiOverviewRevenue">
+                R$ 8.940,00
+              </div>
+            </div>
+            <div class="relative z-10 flex items-center gap-2 mt-3 text-xs">
+              <span class="text-emerald-100">vs. R$ 5.210 base</span>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-white/20 text-white backdrop-blur">
+                +71.4%
+              </span>
+            </div>
+            <!-- Watermark Icon in background -->
+            <div class="absolute -right-3 -bottom-4 text-emerald-500/25 pointer-events-none select-none text-7xl font-bold font-montserrat">
+              $
+            </div>
+          </div>
+
+          <!-- Card 2: TICKET MÉDIO & VOLUMETRIA (White Card with Accents) -->
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between min-h-[145px]">
+            <div>
+              <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <span>TICKET MÉDIO & VOLUMETRIA</span>
+                <span class="p-1 rounded bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400 text-[10px] font-mono font-bold">$</span>
+              </div>
+              <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-xs font-bold text-slate-400">TICKET MÉDIO</span>
+                <span class="text-xl font-bold text-slate-900 dark:text-white" id="kpiOverviewTicket">R$ 146,61</span>
+                <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded">+5.5%</span>
+              </div>
+              <div class="text-[11px] text-slate-400 mt-0.5">vs. R$ 138,98 base</div>
+            </div>
+            <div class="border-t border-slate-100 dark:border-slate-800/80 pt-2.5 mt-2 flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
+              <div>Pedidos: <strong class="text-slate-900 dark:text-white" id="kpiOrders">48 un</strong> <span class="text-[10px] text-emerald-600 font-bold">+62.5%</span></div>
+              <div>Itens: <strong class="text-slate-900 dark:text-white" id="kpiUnits">42 un</strong> <span class="text-[10px] text-emerald-600 font-bold">+62.8%</span></div>
+            </div>
+          </div>
+
+          <!-- Card 3: VALOR INCREMENTAL (ACELERADOR) (Solid Vibrant Blue Card) -->
+          <div class="bg-gradient-to-br from-jbp-blue to-jbp-blueDark rounded-2xl p-5 text-white shadow-md relative overflow-hidden flex flex-col justify-between min-h-[145px]">
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-blue-100 flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300"></i>
+                <span>VALOR INCREMENTAL (ACELERADOR)</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3 mt-2.5">
+                <div>
+                  <div class="text-[10px] uppercase font-bold text-blue-200">Δ DIGITAL</div>
+                  <div class="text-base md:text-lg font-bold font-montserrat" id="kpiDeltaDigital">R$ 3.731,00</div>
+                  <div class="text-[10px] text-emerald-300 font-bold">↗ +71.4%</div>
+                </div>
+                <div class="border-l border-white/20 pl-3">
+                  <div class="text-[10px] uppercase font-bold text-blue-200">Δ REDE TOTAL (VS BASE)</div>
+                  <div class="text-base md:text-lg font-bold font-montserrat" id="kpiDeltaRede">R$ 7.270,00</div>
+                  <div class="text-[10px] text-blue-200 font-semibold">↗ +7.0%</div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 bg-black/20 backdrop-blur rounded-xl px-2.5 py-1 text-[11px] font-medium text-blue-100 flex items-center gap-1.5">
+              <span>🔥</span>
+              <span>O Digital foi responsável por <strong>51.4%</strong> de todo o Δ da Rede</span>
+            </div>
+          </div>
+
+          <!-- Card 4: REPRESENTATIVIDADE (White Card with Progress Gauges) -->
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between min-h-[145px]">
+            <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <span>REPRESENTATIVIDADE</span>
+              <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
+            </div>
+            <div class="grid grid-cols-2 gap-3 my-2">
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                <div class="text-[10px] uppercase font-bold text-slate-400 truncate">CANAL DIGITAL</div>
+                <div class="text-xl font-bold text-slate-900 dark:text-white mt-0.5">100.0%</div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                  <div class="bg-emerald-500 h-full rounded-full w-full"></div>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                <div class="text-[10px] uppercase font-bold text-slate-400 truncate">DIGITAL VS REDE</div>
+                <div class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5" id="kpiDigitalShareText">38.4%</div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                  <div class="bg-emerald-500 h-full rounded-full" style="width: 38.4%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 text-center">
+              Penetração expressiva no varejo B2B
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SECTION 2: EVOLUÇÃO MENSAL - FATURAMENTO (IMAGE 3 FIDELITY) -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs">
+          
+          <!-- Chart Header & Control Toolbar -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <h2 class="text-sm font-bold font-montserrat text-emerald-700 dark:text-emerald-400 tracking-wide uppercase">
+                EVOLUÇÃO MENSAL - FATURAMENTO
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Out/2026 vs. Out/2025 (YoY) — Digital (com Figital)
+              </p>
+            </div>
+
+            <!-- Toolbar Controls -->
+            <div class="flex flex-wrap items-center gap-2">
+              
+              <!-- Action Button: Comparar Linhas por Canal -->
+              <button onclick="switchTab('lines')" class="px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors">
+                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-blue-500"></i>
+                <span>Comparar Linhas por Canal</span>
+              </button>
+
+              <!-- Metric Pills -->
+              <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
+                <button onclick="changeEvolutionMetric('faturamento')" id="btn-ev-fat" class="px-3 py-1 rounded-lg bg-emerald-600 text-white shadow-xs transition-colors flex items-center gap-1">
+                  <span>💵</span> Faturamento
+                </button>
+                <button onclick="changeEvolutionMetric('unidades')" id="btn-ev-uni" class="px-3 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1">
+                  <span>📦</span> Unidades
+                </button>
+                <button onclick="changeEvolutionMetric('ticket')" id="btn-ev-tic" class="px-3 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1">
+                  <span>🛒</span> Ticket Médio
+                </button>
+                <button onclick="changeEvolutionMetric('representatividade')" id="btn-ev-rep" class="px-3 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1">
+                  <span>📊</span> % Representatividade
+                </button>
+              </div>
+
+              <!-- View Switcher: Gráfico vs Planilha -->
+              <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
+                <button onclick="toggleEvolutionView('chart')" id="btn-view-chart" class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white shadow-xs flex items-center gap-1">
+                  <i data-lucide="line-chart" class="w-3.5 h-3.5"></i> Gráfico
+                </button>
+                <button onclick="toggleEvolutionView('table')" id="btn-view-table" class="px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 flex items-center gap-1">
+                  <i data-lucide="table" class="w-3.5 h-3.5"></i> Planilha
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- The Evolution Area/Line Chart -->
+          <div id="chartEvolutionContainer" class="pt-4">
+            <div id="chartMonthlyEvolution" class="w-full h-80"></div>
+          </div>
+
+          <!-- Evolution Table (Hidden by Default) -->
+          <div id="tableEvolutionContainer" class="pt-4 hidden overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider">
+                  <th class="py-2 px-3">Mês</th>
+                  <th class="py-2 px-3">Faturamento 2026 (Atual)</th>
+                  <th class="py-2 px-3">Faturamento 2025 (Base)</th>
+                  <th class="py-2 px-3">Crescimento YoY (%)</th>
+                  <th class="py-2 px-3">Share Digital (%)</th>
+                </tr>
+              </thead>
+              <tbody id="evolutionTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- SECTION 3: TOP RANKINGS DE PRODUTOS & CATEGORIAS (IMAGE 4 FIDELITY) -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs space-y-4">
+          
+          <!-- Rankings Top Dark Pill Bar -->
+          <div class="bg-[#0F172A] rounded-2xl p-1.5 flex flex-wrap items-center justify-between gap-2 text-xs font-medium text-slate-300">
+            <div class="flex flex-wrap items-center gap-1">
+              <button onclick="changeRankingCategory('top-products')" id="btn-rank-products" class="px-3.5 py-1.5 rounded-xl bg-slate-800 text-white font-bold flex items-center gap-1.5 shadow-sm">
+                <span>🏆</span> Top 10 Produtos (Faturamento)
+              </button>
+              <button onclick="changeRankingCategory('top-growth')" id="btn-rank-growth" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-800/60 text-slate-300 flex items-center gap-1.5 transition-colors">
+                <span>📈</span> Maiores Δ (%)
+              </button>
+              <button onclick="changeRankingCategory('top-declines')" id="btn-rank-declines" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-800/60 text-slate-300 flex items-center gap-1.5 transition-colors">
+                <span>📉</span> Maiores Quedas (%)
+              </button>
+              <button onclick="changeRankingCategory('top-cities')" id="btn-rank-cities" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-800/60 text-slate-300 flex items-center gap-1.5 transition-colors">
+                <span>📍</span> Top Cidades (Polos ES, RJ, SP)
+              </button>
+              <button onclick="changeRankingCategory('top-lines')" id="btn-rank-lines" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-800/60 text-slate-300 flex items-center gap-1.5 transition-colors">
+                <span>📦</span> Top Linhas Estratégicas
+              </button>
+            </div>
+
+            <!-- Search input inside ranking -->
+            <div class="relative px-2">
+              <input type="text" id="rankingSearchInput" oninput="filterRankingSearch(this.value)" placeholder="Filtrar nesta visualização..." class="bg-slate-800/80 text-white text-xs rounded-xl pl-7 pr-3 py-1 outline-none border border-slate-700 focus:border-emerald-500 w-44 md:w-56">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            </div>
+          </div>
+
+          <!-- Ranking Title & Subheader -->
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold font-montserrat text-emerald-700 dark:text-emerald-400 tracking-wide uppercase" id="rankingHeaderTitle">
+                TOP 10 PRODUTOS EM FATURAMENTO
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Ranking comparativo de faturamento no período: Out/2026 vs. Out/2025 (YoY)
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button id="btnRankingViewChart" onclick="toggleRankingView('chart')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-700 text-white shadow-xs flex items-center gap-1">
+                <i data-lucide="bar-chart-2" class="w-3 h-3"></i> Gráfico
+              </button>
+              <button id="btnRankingViewTable" onclick="toggleRankingView('table')" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 flex items-center gap-1">
+                <i data-lucide="table" class="w-3 h-3"></i> Planilha
+              </button>
+            </div>
+          </div>
+
+          <!-- Dual Horizontal Bar Chart (Current in Red/Coral vs Previous in Gray) -->
+          <div id="rankingChartContainer">
+            <div id="chartRankingHorizontal" class="w-full h-96"></div>
+          </div>
+
+          <!-- Ranking Table Alternative -->
+          <div id="rankingTableContainer" class="hidden overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+                  <th class="py-2.5 px-3">Item / Descrição</th>
+                  <th class="py-2.5 px-3">Categoria</th>
+                  <th class="py-2.5 px-3">Fat. Atual 2026</th>
+                  <th class="py-2.5 px-3">Fat. Base 2025</th>
+                  <th class="py-2.5 px-3">Variação Δ (%)</th>
+                  <th class="py-2.5 px-3">Share (%)</th>
+                </tr>
+              </thead>
+              <tbody id="rankingTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: ANÁLISE DE LINHAS & PRODUTOS (IMAGE 5 & 6) -->
+      <!-- ========================================== -->
+      <section id="view-lines" class="space-y-6 hidden">
+
+        <!-- Top Banner: Análise de Desempenho Rede vs Digital (Image 5 Header) -->
+        <div class="bg-jbp-dark text-white p-5 rounded-2xl shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg md:text-xl font-bold font-montserrat tracking-tight">
+              Análise de Desempenho: Rede vs. Digital
+            </h2>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Fornecedor: <strong class="text-white">Todas as Indústrias</strong> | Comparativo: <span class="text-emerald-400 font-semibold">Out/2026 vs. Out/2025 (YoY)</span>
+            </p>
+          </div>
+
+          <!-- Mini KPI Pills on the right -->
+          <div class="flex flex-wrap items-center gap-3 text-xs">
+            <div class="bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2">
+              <div class="text-[10px] uppercase font-bold text-slate-400">FATURAMENTO TOTAL REDE</div>
+              <div class="text-sm md:text-base font-extrabold text-emerald-400 font-montserrat">R$ 8.940,00</div>
+            </div>
+            <div class="bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2">
+              <div class="text-[10px] uppercase font-bold text-slate-400">FATURAMENTO DIGITAL</div>
+              <div class="text-sm md:text-base font-extrabold text-blue-400 font-montserrat">R$ 3.432,00</div>
+            </div>
+            <div class="bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2">
+              <div class="text-[10px] uppercase font-bold text-slate-400">PARTICIPAÇÃO DIGITAL</div>
+              <div class="text-sm md:text-base font-extrabold text-purple-400 font-montserrat">38.4%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Column Layout: Pivot Table (Left 65%) + Monthly Chart (Right 35%) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- Left Column: Pivot Table (8 cols) -->
+          <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <!-- Table Header Toolbar -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                  <h3 class="text-sm font-bold font-montserrat text-slate-900 dark:text-white flex items-center gap-2" id="pivotTitle">
+                    <span class="p-1 rounded bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400">
+                      <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span>1. Desempenho por NOME_LINHA</span>
+                    <span class="text-xs font-normal text-slate-400 font-sans" id="pivotCountBadge">(8 categorias)</span>
+                  </h3>
+                  <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                    💡 Clique em qualquer linha para abrir o <strong>drilldown detalhado de produtos</strong>.
+                  </p>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="flex items-center gap-2">
+                  <div class="relative">
+                    <input type="text" id="pivotSearchInput" oninput="searchPivotTable(this.value)" placeholder="Buscar linha..." class="text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg pl-7 pr-3 py-1 outline-none w-36">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2"></i>
+                  </div>
+                  <button onclick="exportPivotCSV()" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center gap-1" title="Exportar CSV">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Drilldown Breadcrumb (When filtered by product) -->
+              <div id="drilldownBreadcrumb" class="hidden my-3 p-2 rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-900 flex items-center justify-between text-xs text-blue-800 dark:text-blue-300">
+                <span id="drilldownText">Filtrado por: <strong>ANTIDIABETICOS</strong></span>
+                <button onclick="clearDrilldown()" class="font-bold underline hover:text-blue-950 dark:hover:text-white">Voltar para Linhas</button>
+              </div>
+
+              <!-- The Table -->
+              <div class="overflow-x-auto mt-3">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-bold text-[10px]">
+                      <th class="py-2.5 px-3">NOME_LINHA / ITEM</th>
+                      <th class="py-2.5 px-3 text-right">FAT. REDE</th>
+                      <th class="py-2.5 px-3 text-center">Δ R.</th>
+                      <th class="py-2.5 px-3 text-right">SH. IND. R.</th>
+                      <th class="py-2.5 px-3 text-right">PESO IND. (R)</th>
+                      <th class="py-2.5 px-3 text-right">FAT. DIGITAL</th>
+                      <th class="py-2.5 px-3 text-center">Δ D.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="linesTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium">
+                    <!-- Populated dynamically via JS -->
+                  </tbody>
+                  <tfoot>
+                    <tr class="border-t-2 border-slate-300 dark:border-slate-700 font-extrabold text-slate-900 dark:text-white bg-slate-50/80 dark:bg-slate-800/40">
+                      <td class="py-2.5 px-3 text-red-600">TOTAL GERAL</td>
+                      <td class="py-2.5 px-3 text-right text-emerald-600 dark:text-emerald-400" id="footTotRede">R$ 8.940,00</td>
+                      <td class="py-2.5 px-3 text-center"><span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">+7.0%</span></td>
+                      <td class="py-2.5 px-3 text-right">100.0%</td>
+                      <td class="py-2.5 px-3 text-right text-purple-600">100.0%</td>
+                      <td class="py-2.5 px-3 text-right text-blue-600 dark:text-blue-400" id="footTotDig">R$ 3.432,00</td>
+                      <td class="py-2.5 px-3 text-center"><span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">+166.6%</span></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <!-- Footer note -->
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>* Valores sintetizados e anonimizados dentro das faixas corporativas aprovadas.</span>
+              <span class="font-mono">Fonte: Base Unificada JBP</span>
+            </div>
+          </div>
+
+          <!-- Right Column: Monthly Evolution Side Chart (4 cols) -->
+          <div class="lg:col-span-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-2">
+                  <span class="p-1 rounded bg-slate-800 text-white"><i data-lucide="line-chart" class="w-3.5 h-3.5"></i></span>
+                  <h3 class="text-xs font-bold font-montserrat uppercase text-slate-900 dark:text-white">Evolução Mensal</h3>
+                </div>
+                <button onclick="resetSideChart()" class="text-[10px] text-red-500 hover:underline">✕ Limpar</button>
+              </div>
+
+              <!-- Metric select inside card -->
+              <div class="my-3">
+                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">MÉTRICA:</label>
+                <select id="selSideMetric" onchange="updateSideChart()" class="w-full text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 font-semibold text-slate-800 dark:text-slate-200 outline-none">
+                  <option value="both">🔥 Faturamento (Rede vs. Digital)</option>
+                  <option value="rede">Faturamento Rede (Consolidado)</option>
+                  <option value="digital">Faturamento Digital (E-commerce + App)</option>
+                </select>
+              </div>
+
+              <!-- Side Mini Chart -->
+              <div id="chartSideEvolution" class="w-full h-64"></div>
+            </div>
+
+            <!-- Side card highlights -->
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Crescimento Digital Médio:</span>
+                <strong class="text-emerald-600 dark:text-emerald-400 font-bold">+89.4% YoY</strong>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500">Share Médio Figital:</span>
+                <strong class="text-blue-600 dark:text-blue-400 font-bold">38.4%</strong>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 3: POLOS REGIONAIS (ES, RJ, SP) -->
+      <!-- ========================================== -->
+      <section id="view-regions" class="space-y-6 hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <h2 class="text-base font-bold font-montserrat text-slate-900 dark:text-white uppercase tracking-wide">
+                Desempenho por Polos Regionais (ES, RJ e SP)
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400">
+                Distribuição territorial e penetração dos canais digitais nos principais polos do Sudeste
+              </p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300">
+              3 Estados / 8 Cidades Polo
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-5">
+            <div>
+              <h4 class="text-xs font-bold uppercase text-slate-400 mb-2">Faturamento Consolidado por Polo (R$)</h4>
+              <div id="chartRegionsBar" class="w-full h-80"></div>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold uppercase text-slate-400 mb-2">Participação de Vendas por Estado (UF)</h4>
+              <div id="chartRegionsDonut" class="w-full h-80 flex items-center justify-center"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 4: MIX DE CANAIS OMNICHANNEL -->
+      <!-- ========================================== -->
+      <section id="view-channels" class="space-y-6 hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <h2 class="text-base font-bold font-montserrat text-slate-900 dark:text-white uppercase tracking-wide">
+                Mix de Canais de Venda (Omnichannel)
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400">
+                Quebra detalhada da receita entre Lojas Físicas, App Mobile, Site E-commerce e Televendas
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-5">
+            <div class="lg:col-span-1 flex flex-col items-center justify-center">
+              <div id="chartChannelsDonut" class="w-full h-80"></div>
+            </div>
+            <div class="lg:col-span-2 overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse mt-4">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 uppercase tracking-wider font-semibold">
+                    <th class="py-2.5 px-3">Canal</th>
+                    <th class="py-2.5 px-3">Faturamento Realizado</th>
+                    <th class="py-2.5 px-3">Participação (%)</th>
+                    <th class="py-2.5 px-3">Crescimento YoY</th>
+                    <th class="py-2.5 px-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium">
+                  <tr>
+                    <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Loja Física
+                    </td>
+                    <td class="py-2.5 px-3 font-semibold">R$ 4.952,00</td>
+                    <td class="py-2.5 px-3 font-bold">55.4%</td>
+                    <td class="py-2.5 px-3 text-emerald-600 font-bold">+4.1%</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Base Histórica</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> App Mobile
+                    </td>
+                    <td class="py-2.5 px-3 font-semibold">R$ 2.038,00</td>
+                    <td class="py-2.5 px-3 font-bold">22.8%</td>
+                    <td class="py-2.5 px-3 text-emerald-600 font-bold">+112.5%</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Acelerador JBP</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Site E-commerce
+                    </td>
+                    <td class="py-2.5 px-3 font-semibold">R$ 1.090,00</td>
+                    <td class="py-2.5 px-3 font-bold">12.2%</td>
+                    <td class="py-2.5 px-3 text-emerald-600 font-bold">+48.0%</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">Em Expansão</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Marketplace
+                    </td>
+                    <td class="py-2.5 px-3 font-semibold">R$ 500,00</td>
+                    <td class="py-2.5 px-3 font-bold">5.6%</td>
+                    <td class="py-2.5 px-3 text-emerald-600 font-bold">+34.2%</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">Parcerias B2B</span></td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> Televendas
+                    </td>
+                    <td class="py-2.5 px-3 font-semibold">R$ 360,00</td>
+                    <td class="py-2.5 px-3 font-bold">4.0%</td>
+                    <td class="py-2.5 px-3 text-blue-600 font-bold">+3.8%</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Estável</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LGPD & Data Compliance Disclaimer Footer -->
+      <footer class="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 flex items-start gap-3 shadow-xs">
+        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"></i>
+        <div>
+          <span class="font-bold text-slate-800 dark:text-slate-200">Aviso de Governança, Proteção de Dados (LGPD) e Portfólio:</span>
+          <p class="mt-0.5">
+            Este modelo interativo foi desenvolvido com <strong>dados 100% sintéticos e fictícios</strong>. Todos os valores monetários estão limitados entre R$ 1.000,00 e R$ 10.000,00, e volumetrias entre 1 e 50 unidades. A cobertura geográfica é restrita aos estados de Espírito Santo (ES), Rio de Janeiro (RJ) e São Paulo (SP).
+          </p>
+        </div>
+      </footer>
+
+    </main>
   </div>
 
-  <!-- Main Content Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-
-    <!-- KPI Cards Row -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      
-      <!-- Card 1: Faturamento -->
-      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Faturamento Realizado</span>
-          <div class="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
-            <i data-lucide="dollar-sign" class="w-4 h-4"></i>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiRevenue">R$ 8.940,00</div>
-        <div class="flex items-center gap-2 mt-2 text-xs">
-          <span class="inline-flex items-center font-bold text-emerald-600 dark:text-emerald-400">
-            <i data-lucide="trending-up" class="w-3.5 h-3.5 mr-0.5"></i>
-            +14.2% YoY
-          </span>
-          <span class="text-slate-400">vs meta acordada</span>
-        </div>
-      </div>
-
-      <!-- Card 2: Atingimento de Metas -->
-      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Atingimento do JBP</span>
-          <div class="p-2 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
-            <i data-lucide="target" class="w-4 h-4"></i>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiTarget">106.8%</div>
-        <div class="flex items-center gap-2 mt-2 text-xs">
-          <span class="px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-            Superado (+R$ 570)
-          </span>
-        </div>
-      </div>
-
-      <!-- Card 3: Digital Share -->
-      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Participação Digital</span>
-          <div class="p-2 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
-            <i data-lucide="smartphone" class="w-4 h-4"></i>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiDigitalShare">38.4%</div>
-        <div class="flex items-center gap-2 mt-2 text-xs">
-          <span class="inline-flex items-center font-bold text-emerald-600 dark:text-emerald-400">
-            <i data-lucide="trending-up" class="w-3.5 h-3.5 mr-0.5"></i>
-            +6.1 p.p. vs 2025
-          </span>
-          <span class="text-slate-400">App + Site</span>
-        </div>
-      </div>
-
-      <!-- Card 4: Alavancagem da Verba (ROI) -->
-      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Alavancagem de Verba</span>
-          <div class="p-2 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
-            <i data-lucide="zap" class="w-4 h-4"></i>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-slate-900 dark:text-white" id="kpiRoi">4.82x</div>
-        <div class="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
-          <span>Eficiência Comercial: <strong class="text-slate-800 dark:text-slate-200">Alto Retorno</strong></span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Charts Row 1: Time Series & Channels -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      
-      <!-- Chart: Monthly Revenue Comparison (2 cols) -->
-      <div class="card-glass rounded-2xl p-5 lg:col-span-2">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Evolução Mensal do Faturamento: Rede vs Digital</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Comparativo histórico de desempenho e penetração dos canais digitais</p>
-          </div>
-          <span class="text-xs text-slate-400">Valores em R$</span>
-        </div>
-        <div id="chartEvolution" class="w-full h-72"></div>
-      </div>
-
-      <!-- Chart: Channel Mix (1 col) -->
-      <div class="card-glass rounded-2xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Mix de Canais de Venda</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Distribuição percentual da receita</p>
-          </div>
-        </div>
-        <div id="chartChannelMix" class="w-full h-72 flex items-center justify-center"></div>
-      </div>
-
-    </div>
-
-    <!-- Charts Row 2: Regional Performance & Supplier Scorecard -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
-      <!-- Chart: Regional Performance (ES / RJ / SP) -->
-      <div class="card-glass rounded-2xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Desempenho por Polo Regional (ES, RJ e SP)</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Faturamento acumulado por cidade polo</p>
-          </div>
-        </div>
-        <div id="chartRegional" class="w-full h-72"></div>
-      </div>
-
-      <!-- Chart: Supplier Performance Matrix -->
-      <div class="card-glass rounded-2xl p-5">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Atingimento de Meta por Indústria (%)</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Percentual de cumprimento dos acordos de JBP</p>
-          </div>
-        </div>
-        <div id="chartSuppliers" class="w-full h-72"></div>
-      </div>
-
-    </div>
-
-    <!-- Data Table Section -->
-    <div class="card-glass rounded-2xl p-5">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
-        <div>
-          <h3 class="text-sm font-bold text-slate-900 dark:text-white">Detalhamento de Acordos de JBP & Performance Comercial</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Base sintética de acompanhamento operacional (amostra representativa)</p>
-        </div>
-        <button id="btnExport" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
-          <i data-lucide="download" class="w-3.5 h-3.5"></i>
-          <span>Exportar CSV</span>
-        </button>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
-              <th class="py-2.5 px-3">Acordo</th>
-              <th class="py-2.5 px-3">Indústria Parceira</th>
-              <th class="py-2.5 px-3">Linha / Categoria</th>
-              <th class="py-2.5 px-3">Polo / UF</th>
-              <th class="py-2.5 px-3">Volume (un)</th>
-              <th class="py-2.5 px-3">Faturamento</th>
-              <th class="py-2.5 px-3">Ating. (%)</th>
-              <th class="py-2.5 px-3">Status JBP</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium">
-            <!-- Populated via JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Security & LGPD Disclaimer Banner -->
-    <div class="p-4 rounded-xl bg-slate-100/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 flex items-start gap-3">
-      <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"></i>
-      <div>
-        <p class="font-semibold text-slate-700 dark:text-slate-300">Aviso de Conformidade e Proteção de Dados (LGPD):</p>
-        <p>Todos os valores monetários (delimitados entre R$ 1.000,00 e R$ 10.000,00) e volumes (1 a 50 unidades) apresentados neste painel são <strong>100% fictícios e sintetizados</strong>. Cidades e polos concentram-se exclusivamente nos estados de Espírito Santo (ES), Rio de Janeiro (RJ) e São Paulo (SP). Nenhuma métrica real ou proporcional de empresas anteriores foi utilizada.</p>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Interactive JavaScript Engine -->
+  <!-- ========================================== -->
+  <!-- 3. JAVASCRIPT REACTIVE LOGIC ENGINE -->
+  <!-- ========================================== -->
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Theme Toggle Handler
-    const themeBtn = document.getElementById('themeToggle');
+    // ------------------------------------------
+    // THEME SWITCHER
+    // ------------------------------------------
+    const themeToggleBtn = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     let isDark = false;
 
-    themeBtn.addEventListener('click', () => {
+    themeToggleBtn.addEventListener('click', () => {
       isDark = !isDark;
       if (isDark) {
         document.documentElement.classList.add('dark');
@@ -342,150 +805,459 @@
       updateChartsTheme();
     });
 
-    // Synthetic Dataset for Demonstration
-    const syntheticData = [
-      { id: "JBP-0101", ind: "Eurofarma Laboratórios", cat: "Saúde & Vitalidade", city: "Vitória", uf: "ES", vol: 38, rev: 8940.00, target: 8200.00, status: "Superado" },
-      { id: "JBP-0102", ind: "EMS Pharma & Indústria", cat: "Especialidades Clínicas", city: "Serra", uf: "ES", vol: 42, rev: 9450.00, target: 9100.00, status: "Superado" },
-      { id: "JBP-0103", ind: "Aché Laboratórios", cat: "Cuidados Diários", city: "Rio de Janeiro", uf: "RJ", vol: 29, rev: 6720.00, target: 7000.00, status: "No Alvo" },
-      { id: "JBP-0104", ind: "Sanofi Brasil", cat: "Imunologia & Vacinas", city: "Macaé", uf: "RJ", vol: 34, rev: 7850.00, target: 7500.00, status: "Superado" },
-      { id: "JBP-0105", ind: "Bayer Saúde & Consumo", cat: "Dermocosméticos", city: "Volta Redonda", uf: "RJ", vol: 25, rev: 5980.00, target: 6400.00, status: "No Alvo" },
-      { id: "JBP-0106", ind: "Hypera Pharma", cat: "Vitaminas & Nutrição", city: "São Paulo", uf: "SP", vol: 45, rev: 9820.00, target: 9200.00, status: "Superado" },
-      { id: "JBP-0107", ind: "Eurofarma Laboratórios", cat: "Genéricos Premium", city: "Campinas", uf: "SP", vol: 31, rev: 7150.00, target: 7300.00, status: "No Alvo" },
-      { id: "JBP-0108", ind: "EMS Pharma & Indústria", cat: "Linha Hospitalar", city: "Santos", uf: "SP", vol: 39, rev: 8640.00, target: 8100.00, status: "Superado" }
+    // ------------------------------------------
+    // TAB SWITCHING (ORIGINAL APP FIDELITY)
+    // ------------------------------------------
+    const views = {
+      overview: document.getElementById('view-overview'),
+      lines: document.getElementById('view-lines'),
+      rankings: document.getElementById('view-overview'), // maps to rankings section
+      regions: document.getElementById('view-regions'),
+      channels: document.getElementById('view-channels')
+    };
+
+    const navButtons = {
+      overview: document.getElementById('btn-tab-overview'),
+      lines: document.getElementById('btn-tab-lines'),
+      rankings: document.getElementById('btn-tab-rankings'),
+      regions: document.getElementById('btn-tab-regions'),
+      channels: document.getElementById('btn-tab-channels')
+    };
+
+    function switchTab(tabKey) {
+      // Hide all views
+      Object.values(views).forEach(v => { if (v) v.classList.add('hidden'); });
+
+      // Reset button styles
+      Object.values(navButtons).forEach(btn => {
+        if (btn) {
+          btn.className = "nav-item w-11 h-11 rounded-2xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800/70 transition-all";
+        }
+      });
+
+      // Highlight active button with RED pill (matching screenshot)
+      const activeBtn = navButtons[tabKey];
+      if (activeBtn) {
+        activeBtn.className = "nav-item w-11 h-11 rounded-2xl flex items-center justify-center transition-all bg-jbp-red text-white shadow-lg shadow-red-600/30";
+      }
+
+      // Show selected view
+      if (tabKey === 'rankings') {
+        views.overview.classList.remove('hidden');
+        document.getElementById('rankingHeaderTitle').scrollIntoView({ behavior: 'smooth' });
+      } else if (views[tabKey]) {
+        views[tabKey].classList.remove('hidden');
+      }
+
+      // Redraw charts if needed
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    }
+
+    // ------------------------------------------
+    // SYNTHETIC COMPREHENSIVE DATASET
+    // ------------------------------------------
+    const syntheticLines = [
+      { name: "ANTIDIABETICOS", fatRede: 6701.00, deltaR: 23.8, shareInd: 7.7, pesoInd: 100.0, fatDig: 2469.00, deltaD: 89.3 },
+      { name: "FRALDAS INFANTIS", fatRede: 4231.00, deltaR: 15.6, shareInd: 4.8, pesoInd: 100.0, fatDig: 1807.00, deltaD: 102.4 },
+      { name: "ANTIDEPRESSIVOS / ESTAB.", fatRede: 4004.00, deltaR: 8.0, shareInd: 4.6, pesoInd: 100.0, fatDig: 1194.00, deltaD: 106.2 },
+      { name: "VITAMINAS E SUPLEMENTOS", fatRede: 3541.00, deltaR: -0.9, shareInd: 4.1, pesoInd: 100.0, fatDig: 1503.00, deltaD: 68.0 },
+      { name: "MEDICAMENTOS FARMACEUTICOS", fatRede: 2512.00, deltaR: 7.2, shareInd: 2.9, pesoInd: 100.0, fatDig: 401.00, deltaD: 74.8 },
+      { name: "ANTI-HIPERTENSIVOS", fatRede: 1863.00, deltaR: 12.7, shareInd: 2.1, pesoInd: 100.0, fatDig: 561.00, deltaD: 68.0 },
+      { name: "ANTIBIOTICOS SISTEMICOS", fatRede: 1734.00, deltaR: -11.9, shareInd: 2.0, pesoInd: 100.0, fatDig: 312.00, deltaD: 175.5 },
+      { name: "DERMOCOSMETICOS", fatRede: 1720.00, deltaR: 7.4, shareInd: 2.0, pesoInd: 100.0, fatDig: 1522.00, deltaD: 79.9 }
     ];
 
-    // Populate Table
-    function renderTable(rows) {
-      const tbody = document.getElementById('tableBody');
+    const syntheticProducts = [
+      { name: "MOUNJARO 5MG 4CAN APLIC LILLY", line: "ANTIDIABETICOS", fatRede: 2193.00, deltaR: 15.7, fatDig: 1625.00, deltaD: 177.9, share: 24.5 },
+      { name: "MOUNJARO 2,5MG 4CAN APLIC LILLY", line: "ANTIDIABETICOS", fatRede: 1548.00, deltaR: 1.1, fatDig: 992.00, deltaD: 91.0, share: 17.3 },
+      { name: "OZIVY 1MG 1CAN 3ML EMS", line: "ANTIDIABETICOS", fatRede: 1032.00, deltaR: 100.0, fatDig: 459.00, deltaD: 100.0, share: 11.5 },
+      { name: "MOUNJARO 7,5MG 4CAN APLIC LILLY", line: "ANTIDIABETICOS", fatRede: 970.00, deltaR: -2.8, fatDig: 487.00, deltaD: 85.0, share: 10.8 },
+      { name: "POVIZTRA 1MG 3ML EUROFARMA", line: "ANTIDIABETICOS", fatRede: 958.00, deltaR: 183.1, fatDig: 258.00, deltaD: 128.2, share: 10.7 },
+      { name: "FRALDA CONFORT PROTECT P", line: "FRALDAS INFANTIS", fatRede: 820.00, deltaR: 24.0, fatDig: 450.00, deltaD: 82.0, share: 9.1 },
+      { name: "FRALDA CONFORT PROTECT M", line: "FRALDAS INFANTIS", fatRede: 790.00, deltaR: 18.2, fatDig: 410.00, deltaD: 74.0, share: 8.8 },
+      { name: "VITAMINA C 1000MG EFERV", line: "VITAMINAS E SUPLEMENTOS", fatRede: 680.00, deltaR: 5.5, fatDig: 320.00, deltaD: 45.0, share: 7.6 }
+    ];
+
+    // ------------------------------------------
+    // POPULATE LINES & DRILLDOWN TABLE (IMAGE 5 & 6)
+    // ------------------------------------------
+    let currentDrilldownLine = null;
+
+    function renderLinesTable(items, isProductDrilldown = false) {
+      const tbody = document.getElementById('linesTableBody');
       tbody.innerHTML = '';
-      rows.forEach(r => {
-        const ating = ((r.rev / r.target) * 100).toFixed(1);
-        const statusBadge = r.status === 'Superado'
-          ? '<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Superado</span>'
-          : '<span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">No Alvo</span>';
+
+      items.forEach(item => {
+        const deltaRClass = item.deltaR >= 0 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300';
+        const deltaDClass = item.deltaD >= 0 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300';
+        const deltaRSign = item.deltaR >= 0 ? `+${item.deltaR.toFixed(1)}%` : `${item.deltaR.toFixed(1)}%`;
+        const deltaDSign = item.deltaD >= 0 ? `+${item.deltaD.toFixed(1)}%` : `${item.deltaD.toFixed(1)}%`;
+
+        const row = document.createElement('tr');
+        row.className = "hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors cursor-pointer";
         
-        tbody.innerHTML += `
-          <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
-            <td class="py-2.5 px-3 font-mono text-[11px] text-slate-500">${r.id}</td>
-            <td class="py-2.5 px-3 font-semibold text-slate-800 dark:text-slate-200">${r.ind}</td>
-            <td class="py-2.5 px-3 text-slate-600 dark:text-slate-400">${r.cat}</td>
-            <td class="py-2.5 px-3">${r.city} (${r.uf})</td>
-            <td class="py-2.5 px-3 font-mono">${r.vol} un</td>
-            <td class="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">R$ ${r.rev.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-            <td class="py-2.5 px-3 font-bold ${ating >= 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600'}">${ating}%</td>
-            <td class="py-2.5 px-3">${statusBadge}</td>
-          </tr>
+        if (!isProductDrilldown) {
+          row.onclick = () => openDrilldown(item.name);
+        }
+
+        row.innerHTML = `
+          <td class="py-2.5 px-3 font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full ${isProductDrilldown ? 'bg-blue-500' : 'bg-red-500'}"></span>
+            <span>${item.name}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-slate-900 dark:text-white">
+            R$ ${item.fatRede.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+          </td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${deltaRClass}">${deltaRSign}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right text-slate-600 dark:text-slate-400 font-mono">
+            ${item.shareInd ? item.shareInd.toFixed(1) + '%' : (item.share ? item.share.toFixed(1) + '%' : '-')}
+          </td>
+          <td class="py-2.5 px-3 text-right font-bold text-purple-600 dark:text-purple-400 font-mono">
+            ${item.pesoInd ? item.pesoInd.toFixed(1) + '%' : '100.0%'}
+          </td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-blue-600 dark:text-blue-400">
+            R$ ${item.fatDig.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+          </td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${deltaDClass}">${deltaDSign}</span>
+          </td>
         `;
+        tbody.appendChild(row);
       });
     }
 
-    renderTable(syntheticData);
+    renderLinesTable(syntheticLines);
 
-    // ApexCharts: 1. Monthly Evolution
-    const optionsEvolution = {
-      series: [
-        { name: 'Faturamento Total (Rede)', data: [4500, 5200, 6100, 5800, 6900, 7400, 7900, 8400, 8940] },
-        { name: 'Faturamento Digital', data: [1200, 1500, 1950, 2100, 2600, 2900, 3150, 3350, 3432] }
-      ],
-      chart: { type: 'area', height: 280, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-      colors: ['#059669', '#3b82f6'],
-      dataLabels: { enabled: false },
-      stroke: { curve: 'smooth', width: 2 },
-      fill: { type: 'gradient', gradient: { opacityFrom: 0.35, opacityTo: 0.05 } },
-      xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set'] },
-      tooltip: { y: { formatter: (val) => 'R$ ' + val.toLocaleString('pt-BR', {minimumFractionDigits: 2}) } }
-    };
-    const chartEvolution = new ApexCharts(document.querySelector("#chartEvolution"), optionsEvolution);
-    chartEvolution.render();
-
-    // ApexCharts: 2. Channel Mix Donut
-    const optionsChannels = {
-      series: [55.4, 22.8, 12.2, 5.6, 4.0],
-      labels: ['Loja Física', 'App Mobile', 'Site E-commerce', 'Marketplace', 'Televendas'],
-      chart: { type: 'donut', height: 280, fontFamily: 'Inter, sans-serif' },
-      colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'],
-      legend: { position: 'bottom' },
-      dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
-    };
-    const chartChannelMix = new ApexCharts(document.querySelector("#chartChannelMix"), optionsChannels);
-    chartChannelMix.render();
-
-    // ApexCharts: 3. Regional Performance Bar Chart
-    const optionsRegional = {
-      series: [{ name: 'Faturamento (R$)', data: [9820, 9450, 8940, 8640, 7850, 7150, 6720, 5980] }],
-      chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-      colors: ['#059669'],
-      plotOptions: { bar: { borderRadius: 6, horizontal: true } },
-      dataLabels: { enabled: false },
-      xaxis: { categories: ['São Paulo/SP', 'Serra/ES', 'Vitória/ES', 'Santos/SP', 'Macaé/RJ', 'Campinas/SP', 'Rio de Janeiro/RJ', 'Volta Redonda/RJ'] },
-      tooltip: { y: { formatter: (val) => 'R$ ' + val.toLocaleString('pt-BR', {minimumFractionDigits: 2}) } }
-    };
-    const chartRegional = new ApexCharts(document.querySelector("#chartRegional"), optionsRegional);
-    chartRegional.render();
-
-    // ApexCharts: 4. Supplier Performance Bar Chart
-    const optionsSuppliers = {
-      series: [{ name: 'Atingimento (%)', data: [109.0, 106.7, 104.6, 103.8, 96.0, 93.4] }],
-      chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
-      colors: ['#3b82f6'],
-      plotOptions: { bar: { borderRadius: 6, columnWidth: '50%' } },
-      dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' },
-      xaxis: { categories: ['Eurofarma', 'Hypera', 'EMS Pharma', 'Sanofi', 'Aché', 'Bayer'] }
-    };
-    const chartSuppliers = new ApexCharts(document.querySelector("#chartSuppliers"), optionsSuppliers);
-    chartSuppliers.render();
-
-    // Dynamic Filtering Logic
-    const selSupplier = document.getElementById('selSupplier');
-    const selUF = document.getElementById('selUF');
-    
-    function applyFilters() {
-      const sVal = selSupplier.value;
-      const uVal = selUF.value;
+    function openDrilldown(lineName) {
+      currentDrilldownLine = lineName;
+      document.getElementById('pivotTitle').innerHTML = `
+        <span class="p-1 rounded bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+          <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+        </span>
+        <span>2. Desempenho por PRODUTO_NOME</span>
+      `;
+      document.getElementById('pivotCountBadge').innerText = `(Filtrado por: ${lineName})`;
       
-      let filtered = syntheticData.filter(item => {
-        const matchSup = sVal === 'ALL' || item.ind.includes(sVal);
-        const matchUF = uVal === 'ALL' || item.uf === uVal;
-        return matchSup && matchUF;
-      });
-      
-      renderTable(filtered);
-      
-      // Update KPIs dynamically
-      if (filtered.length > 0) {
-        const totalRev = filtered.reduce((acc, cur) => acc + cur.rev, 0);
-        const totalTarget = filtered.reduce((acc, cur) => acc + cur.target, 0);
-        const ating = ((totalRev / totalTarget) * 100).toFixed(1);
-        
-        document.getElementById('kpiRevenue').innerText = 'R$ ' + totalRev.toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('kpiTarget').innerText = ating + '%';
+      const breadcrumb = document.getElementById('drilldownBreadcrumb');
+      breadcrumb.classList.remove('hidden');
+      document.getElementById('drilldownText').innerHTML = `Linha Selecionada: <strong>${lineName}</strong>`;
+
+      const filteredProducts = syntheticProducts.filter(p => p.line === lineName || lineName === "ANTIDIABETICOS");
+      renderLinesTable(filteredProducts, true);
+      lucide.createIcons();
+    }
+
+    function clearDrilldown() {
+      currentDrilldownLine = null;
+      document.getElementById('pivotTitle').innerHTML = `
+        <span class="p-1 rounded bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+        </span>
+        <span>1. Desempenho por NOME_LINHA</span>
+      `;
+      document.getElementById('pivotCountBadge').innerText = `(8 categorias)`;
+      document.getElementById('drilldownBreadcrumb').classList.add('hidden');
+      renderLinesTable(syntheticLines);
+      lucide.createIcons();
+    }
+
+    function searchPivotTable(query) {
+      const q = query.toLowerCase().trim();
+      if (!currentDrilldownLine) {
+        const filtered = syntheticLines.filter(l => l.name.toLowerCase().includes(q));
+        renderLinesTable(filtered);
+      } else {
+        const filtered = syntheticProducts.filter(p => p.name.toLowerCase().includes(q));
+        renderLinesTable(filtered, true);
       }
     }
 
-    selSupplier.addEventListener('change', applyFilters);
-    selUF.addEventListener('change', applyFilters);
-
-    // Export Table to CSV
-    document.getElementById('btnExport').addEventListener('click', () => {
-      let csv = "ID;Industria;Categoria;Cidade;UF;Volume;Faturamento;Meta;Status\n";
-      syntheticData.forEach(r => {
-        csv += `${r.id};"${r.ind}";"${r.cat}";"${r.city}";${r.uf};${r.vol};${r.rev};${r.target};"${r.status}"\n`;
+    function exportPivotCSV() {
+      let csv = "Item;FatRede;DeltaRede;FatDigital;DeltaDigital\n";
+      const dataToExport = currentDrilldownLine ? syntheticProducts : syntheticLines;
+      dataToExport.forEach(d => {
+        csv += `"${d.name}";${d.fatRede};${d.deltaR};${d.fatDig};${d.deltaD}\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `relatorio_jbp_executivo_${new Date().toISOString().slice(0,10)}.csv`;
+      link.download = `jbp_desempenho_linhas_${new Date().toISOString().slice(0,10)}.csv`;
       link.click();
+    }
+
+    // ------------------------------------------
+    // APEXCHARTS CONFIGURATIONS (IDENTICAL TO SCREENSHOTS)
+    // ------------------------------------------
+
+    // 1. Chart: Monthly Evolution (Out/2026 vs Out/2025 YoY) - Image 3
+    const optionsMonthly = {
+      series: [
+        {
+          name: '2026 (Atual)',
+          data: [45.8, 46.9, 52.9, 48.8, 54.2, 54.7, 53.4, 56.0, 65.0, 71.0]
+        },
+        {
+          name: '2025 (Anterior)',
+          data: [21.9, 20.7, 26.1, 26.5, 29.7, 35.9, 34.4, 35.2, 36.9, 41.4]
+        }
+      ],
+      chart: {
+        type: 'line',
+        height: 320,
+        toolbar: { show: false },
+        fontFamily: 'Inter, sans-serif'
+      },
+      colors: ['#009B4D', '#86efac'],
+      stroke: {
+        width: [3.5, 2.5],
+        curve: 'smooth',
+        dashArray: [0, 5]
+      },
+      markers: {
+        size: [5, 4],
+        shape: ['diamond', 'circle'],
+        strokeWidth: 2
+      },
+      xaxis: {
+        categories: ['Jan/2026', 'Fev/2026', 'Mar/2026', 'Abr/2026', 'Mai/2026', 'Jun/2026', 'Jul/2026', 'Ago/2026', 'Set/2026', 'Out/2026']
+      },
+      yaxis: {
+        labels: {
+          formatter: (v) => 'R$ ' + (v * 100).toLocaleString('pt-BR', {minimumFractionDigits: 0})
+        }
+      },
+      legend: {
+        position: 'bottom',
+        horizontalAlign: 'center',
+        markers: { radius: 12 }
+      },
+      tooltip: {
+        y: {
+          formatter: (v) => 'R$ ' + (v * 100).toLocaleString('pt-BR', {minimumFractionDigits: 2})
+        }
+      }
+    };
+    const chartMonthly = new ApexCharts(document.querySelector("#chartMonthlyEvolution"), optionsMonthly);
+    chartMonthly.render();
+
+    // Populate Evolution Table
+    const months = ['Jan/2026', 'Fev/2026', 'Mar/2026', 'Abr/2026', 'Mai/2026', 'Jun/2026', 'Jul/2026', 'Ago/2026', 'Set/2026', 'Out/2026'];
+    const curVals = [4580, 4690, 5290, 4880, 5420, 5470, 5340, 5600, 6500, 7100];
+    const basVals = [2190, 2070, 2610, 2650, 2970, 3590, 3440, 3520, 3690, 4140];
+    const evTbody = document.getElementById('evolutionTableBody');
+    months.forEach((m, i) => {
+      const growth = (((curVals[i] - basVals[i]) / basVals[i]) * 100).toFixed(1);
+      evTbody.innerHTML += `
+        <tr>
+          <td class="py-2 px-3 font-semibold text-slate-800 dark:text-slate-200">${m}</td>
+          <td class="py-2 px-3 font-mono font-bold text-emerald-600">R$ ${curVals[i].toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+          <td class="py-2 px-3 font-mono text-slate-500">R$ ${basVals[i].toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+          <td class="py-2 px-3 font-bold text-emerald-600">+${growth}%</td>
+          <td class="py-2 px-3 font-bold text-blue-600">${(30 + i * 0.9).toFixed(1)}%</td>
+        </tr>
+      `;
     });
 
+    // 2. Chart: Top 10 Horizontal Bar Chart (Image 4)
+    const optionsRanking = {
+      series: [
+        {
+          name: 'Período Atual (Out/2026)',
+          data: [2193, 1548, 1032, 970, 958, 820, 790, 680, 590, 510]
+        },
+        {
+          name: 'Período Base (Out/2025)',
+          data: [1100, 950, 516, 720, 338, 660, 668, 644, 490, 430]
+        }
+      ],
+      chart: {
+        type: 'bar',
+        height: 380,
+        toolbar: { show: false },
+        fontFamily: 'Inter, sans-serif'
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          borderRadius: 4,
+          barHeight: '65%'
+        }
+      },
+      colors: ['#E53E3E', '#94A3B8'],
+      dataLabels: { enabled: false },
+      stroke: { show: true, width: 1, colors: ['transparent'] },
+      xaxis: {
+        categories: [
+          'MOUNJARO 5MG 4CAN APLIC LILLY',
+          'MOUNJARO 2,5MG 4CAN APLIC LILLY',
+          'MOUNJARO 7,5MG 4CAN APLIC LILLY',
+          'OZIVY 1MG 1CAN 3ML EMS',
+          'MOUNJARO 10MG 4CAN APLIC LILLY',
+          'SEMAVY 1MG 1CAN 3ML',
+          'FRALDA CONFORT PROTECT P',
+          'SEMAVY 0,25MG+0,5MG',
+          'FRALDA CONFORT PROTECT M',
+          'GLUCOCHECK PRIME SENSOR'
+        ],
+        labels: { formatter: (v) => 'R$ ' + v.toLocaleString('pt-BR') }
+      },
+      legend: { position: 'top' },
+      tooltip: {
+        y: { formatter: (v) => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2}) }
+      }
+    };
+    const chartRanking = new ApexCharts(document.querySelector("#chartRankingHorizontal"), optionsRanking);
+    chartRanking.render();
+
+    // 3. Side Chart: Faturamento Rede vs Digital (Image 5)
+    const optionsSide = {
+      series: [
+        { name: 'Faturamento Rede', data: [45.0, 52.0, 67.0] },
+        { name: 'Faturamento Digital', data: [15.0, 16.0, 24.6] }
+      ],
+      chart: {
+        type: 'line',
+        height: 240,
+        toolbar: { show: false },
+        fontFamily: 'Inter, sans-serif'
+      },
+      colors: ['#009B4D', '#0052CC'],
+      stroke: { width: 3, curve: 'smooth' },
+      markers: { size: 5 },
+      xaxis: { categories: ['Abr/2026', 'Mai/2026', 'Jun/2026'] },
+      yaxis: { labels: { formatter: (v) => 'R$ ' + (v * 100).toFixed(0) } },
+      legend: { position: 'bottom' }
+    };
+    const chartSide = new ApexCharts(document.querySelector("#chartSideEvolution"), optionsSide);
+    chartSide.render();
+
+    // 4. Regional Performance Bar Chart (ES, RJ, SP)
+    const optionsRegionsBar = {
+      series: [{ name: 'Faturamento (R$)', data: [3450, 2980, 2510] }],
+      chart: { type: 'bar', height: 280, toolbar: { show: false } },
+      colors: ['#009B4D'],
+      plotOptions: { bar: { borderRadius: 6, horizontal: true } },
+      xaxis: { categories: ['São Paulo (SP)', 'Rio de Janeiro (RJ)', 'Espírito Santo (ES)'] },
+      tooltip: { y: { formatter: (v) => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2}) } }
+    };
+    const chartRegionsBar = new ApexCharts(document.querySelector("#chartRegionsBar"), optionsRegionsBar);
+    chartRegionsBar.render();
+
+    // 5. Regional Donut
+    const optionsRegionsDonut = {
+      series: [38.6, 33.3, 28.1],
+      labels: ['São Paulo (SP)', 'Rio de Janeiro (RJ)', 'Espírito Santo (ES)'],
+      chart: { type: 'donut', height: 280 },
+      colors: ['#10B981', '#3B82F6', '#8B5CF6'],
+      legend: { position: 'bottom' }
+    };
+    const chartRegionsDonut = new ApexCharts(document.querySelector("#chartRegionsDonut"), optionsRegionsDonut);
+    chartRegionsDonut.render();
+
+    // 6. Channels Donut (Omnichannel)
+    const optionsChannelsDonut = {
+      series: [55.4, 22.8, 12.2, 5.6, 4.0],
+      labels: ['Loja Física', 'App Mobile', 'Site E-commerce', 'Marketplace', 'Televendas'],
+      chart: { type: 'donut', height: 280 },
+      colors: ['#009B4D', '#0052CC', '#8B5CF6', '#F59E0B', '#64748B'],
+      legend: { position: 'bottom' }
+    };
+    const chartChannelsDonut = new ApexCharts(document.querySelector("#chartChannelsDonut"), optionsChannelsDonut);
+    chartChannelsDonut.render();
+
+    // ------------------------------------------
+    // GLOBAL FILTERING REACTIVE CONTROLLER
+    // ------------------------------------------
+    function applyGlobalFilters() {
+      const sup = document.getElementById('filterSupplier').value;
+      const uf = document.getElementById('filterUF').value;
+      const line = document.getElementById('filterLine').value;
+
+      let multiplier = 1.0;
+      if (sup !== 'ALL') multiplier *= 0.65;
+      if (uf !== 'ALL') multiplier *= 0.55;
+      if (line !== 'ALL') multiplier *= 0.45;
+
+      const baseRev = 8940.00 * multiplier;
+      const baseTicket = 146.61;
+      const baseOrders = Math.round(48 * multiplier);
+      const baseUnits = Math.round(42 * multiplier);
+
+      document.getElementById('kpiOverviewRevenue').innerText = 'R$ ' + baseRev.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+      document.getElementById('kpiOrders').innerText = `${Math.max(1, baseOrders)} un`;
+      document.getElementById('kpiUnits').innerText = `${Math.max(1, baseUnits)} un`;
+      document.getElementById('kpiDeltaDigital').innerText = 'R$ ' + (baseRev * 0.417).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+      document.getElementById('kpiDeltaRede').innerText = 'R$ ' + (baseRev * 0.813).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+
+      // Filter Pivot Table
+      let filtered = syntheticLines;
+      if (line !== 'ALL') {
+        filtered = syntheticLines.filter(l => l.name.includes(line));
+      }
+      renderLinesTable(filtered);
+    }
+
+    function resetFilters() {
+      document.getElementById('filterPeriod').value = '2026-Q3';
+      document.getElementById('filterSupplier').value = 'ALL';
+      document.getElementById('filterLine').value = 'ALL';
+      document.getElementById('filterUF').value = 'ALL';
+      applyGlobalFilters();
+      clearDrilldown();
+    }
+
+    // Toggle Evolution View (Gráfico vs Planilha)
+    function toggleEvolutionView(viewType) {
+      const c = document.getElementById('chartEvolutionContainer');
+      const t = document.getElementById('tableEvolutionContainer');
+      const btnC = document.getElementById('btn-view-chart');
+      const btnT = document.getElementById('btn-view-table');
+
+      if (viewType === 'chart') {
+        c.classList.remove('hidden');
+        t.classList.add('hidden');
+        btnC.className = "px-2.5 py-1 rounded-lg bg-emerald-700 text-white shadow-xs flex items-center gap-1";
+        btnT.className = "px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 flex items-center gap-1";
+      } else {
+        c.classList.add('hidden');
+        t.classList.remove('hidden');
+        btnT.className = "px-2.5 py-1 rounded-lg bg-emerald-700 text-white shadow-xs flex items-center gap-1";
+        btnC.className = "px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 flex items-center gap-1";
+      }
+    }
+
+    function toggleRankingView(viewType) {
+      const c = document.getElementById('rankingChartContainer');
+      const t = document.getElementById('rankingTableContainer');
+      const btnC = document.getElementById('btnRankingViewChart');
+      const btnT = document.getElementById('btnRankingViewTable');
+
+      if (viewType === 'chart') {
+        c.classList.remove('hidden');
+        t.classList.add('hidden');
+        btnC.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-700 text-white shadow-xs flex items-center gap-1";
+        btnT.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 flex items-center gap-1";
+      } else {
+        c.classList.add('hidden');
+        t.classList.remove('hidden');
+        btnT.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-700 text-white shadow-xs flex items-center gap-1";
+        btnC.className = "px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 flex items-center gap-1";
+      }
+    }
+
     function updateChartsTheme() {
-      const themeMode = isDark ? 'dark' : 'light';
-      chartEvolution.updateOptions({ theme: { mode: themeMode } });
-      chartChannelMix.updateOptions({ theme: { mode: themeMode } });
-      chartRegional.updateOptions({ theme: { mode: themeMode } });
-      chartSuppliers.updateOptions({ theme: { mode: themeMode } });
+      const mode = isDark ? 'dark' : 'light';
+      chartMonthly.updateOptions({ theme: { mode } });
+      chartRanking.updateOptions({ theme: { mode } });
+      chartSide.updateOptions({ theme: { mode } });
+      chartRegionsBar.updateOptions({ theme: { mode } });
+      chartRegionsDonut.updateOptions({ theme: { mode } });
+      chartChannelsDonut.updateOptions({ theme: { mode } });
     }
   </script>
 </body>
 </html>
-
