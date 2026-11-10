@@ -1,0 +1,452 @@
+﻿/* ============================================================
+   custom_style.css  -  Painel de Competitividade Comercial
+   Farmacias Sao Joao  |  Manual de Identidade Visual (Design System)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* --- Reset & Base ----------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* --- Streamlit scaffolding --------------------------------- */
+#MainMenu, footer, header { visibility: hidden !important; }
+[data-testid="collapsedControl"] { display: none !important; }
+
+.block-container {
+    padding-top: 1rem !important;
+    padding-bottom: 2rem !important;
+    max-width: 1700px !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+
+/* --- Fundo geral ------------------------------------------ */
+.stApp {
+    background-color: var(--bg-page) !important;
+}
+
+/* ==========================================================
+   CABECALHO
+   ========================================================== */
+.app-header-wrap {
+    display: inline-flex;
+    align-items: center;
+    background: #FFFFFF;
+    border-bottom: 3px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 0.65rem 1.4rem;
+    margin-bottom: 0.75rem;
+    gap: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    width: fit-content;
+}
+
+.app-header-logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.app-header-logo-box img {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+}
+
+.app-header-title-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-right: 0.5rem;
+}
+
+.app-header-main-title {
+    font-size: 1.95rem !important;
+    font-weight: 800 !important;
+    color: #C81419 !important;
+    margin: 0 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.logo-text-fallback {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2D2E96;
+}
+
+/* ==========================================================
+   PAINEL DE FILTROS - fundo azul escuro
+   ========================================================== */
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) {
+    background: #0E1747;
+    border-radius: 12px;
+    padding: 1rem 1.4rem 1.1rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 16px rgba(14, 23, 71, 0.3);
+}
+
+.filter-section-label {
+    font-size: 0.98rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C81419;
+    margin-bottom: 0.65rem;
+    margin-top: 0.85rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.filter-section-label:first-child {
+    margin-top: 0;
+}
+
+/* Labels dentro do painel escuro */
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) div[data-testid="stMultiSelect"] label,
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) div[data-testid="stTextInput"] label,
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) div[data-testid="stSelectbox"] label {
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.07em !important;
+    color: #BDC8E8 !important;
+}
+
+/* Inputs dentro do painel escuro */
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) [data-baseweb="select"] > div {
+    background-color: #1A2560 !important;
+    border-color: #2D3A7A !important;
+    border-radius: 8px !important;
+    color: #E8EDF8 !important;
+}
+
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) div[data-testid="stTextInput"] input {
+    background: #1A2560 !important;
+    border: 1px solid #2D3A7A !important;
+    border-radius: 8px !important;
+    color: #E8EDF8 !important;
+    font-size: 0.85rem !important;
+}
+
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) div[data-testid="stTextInput"] input::placeholder {
+    color: #7A8EC0 !important;
+}
+
+/* Tags multiselect dentro do painel */
+div[data-testid="stVerticalBlock"]:has(> div.element-container .filter-panel-target) div[data-testid="stMultiSelect"] span[data-baseweb="tag"] {
+    background-color: #2D2E96 !important;
+    color: #fff !important;
+    border-radius: 4px !important;
+    font-size: 0.7rem !important;
+}
+
+/* --- Inputs padrao (fora do painel) ----------------------- */
+div[data-testid="stMultiSelect"] label,
+div[data-testid="stTextInput"] label,
+div[data-testid="stSelectbox"] label {
+    font-size: 0.73rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    color: var(--text-secondary) !important;
+}
+
+div[data-testid="stTextInput"] input {
+    background: var(--bg-input) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    color: var(--text-primary) !important;
+    font-size: 0.875rem !important;
+    transition: border-color 0.15s ease !important;
+}
+
+div[data-testid="stTextInput"] input:focus {
+    border-color: var(--border-focus) !important;
+    box-shadow: 0 0 0 3px rgba(45, 46, 150, 0.1) !important;
+}
+
+div[data-testid="stMultiSelect"] span[data-baseweb="tag"] {
+    background-color: var(--azul-sj) !important;
+    color: #fff !important;
+    border-radius: 4px !important;
+    font-size: 0.72rem !important;
+}
+
+/* ==========================================================
+   KPI CARDS
+   ========================================================== */
+.kpi-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 1rem 1.2rem 0.9rem 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+    height: 100%;
+}
+
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    border-radius: 12px 0 0 12px;
+}
+
+.kpi-card--alerta::before { background: #C81419; }
+.kpi-card--oport::before  { background: #FF9326; }
+.kpi-card--comp::before   { background: #0AA35B; }
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.kpi-card--active {
+    outline: 2px solid #00B1F2;
+}
+
+.kpi-dot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.kpi-card--alerta .kpi-dot { background: #C81419; }
+.kpi-card--oport  .kpi-dot { background: #FF9326; }
+.kpi-card--comp   .kpi-dot { background: #0AA35B; }
+
+.kpi-label {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #6B7280;
+    margin-bottom: 0.35rem;
+    padding-left: 0.5rem;
+}
+
+.kpi-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    padding-left: 0.5rem;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.2rem;
+}
+
+.kpi-card--alerta .kpi-value { color: #C81419; }
+.kpi-card--oport  .kpi-value { color: #FF9326; }
+.kpi-card--comp   .kpi-value { color: #0AA35B; }
+
+.kpi-sub {
+    font-size: 0.72rem;
+    color: #6B7280;
+    padding-left: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-desc-text {
+    font-size: 0.85rem;
+    color: #9CA3AF;
+    padding-left: 0.5rem;
+    line-height: 1.4;
+}
+
+/* ==========================================================
+   BOTOES
+   ========================================================== */
+div.stButton > button[kind="primary"],
+div.stButton > button[data-testid="stBaseButton-primary"] {
+    background: var(--azul-sj) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.02em !important;
+    transition: opacity 0.15s ease, transform 0.15s ease !important;
+}
+
+div.stButton > button[kind="primary"]:hover,
+div.stButton > button[data-testid="stBaseButton-primary"]:hover {
+    opacity: 0.88 !important;
+    transform: translateY(-1px) !important;
+}
+
+div.stButton > button[kind="secondary"],
+div.stButton > button[data-testid="stBaseButton-secondary"] {
+    background: #FFFFFF !important;
+    color: #5A6478 !important;
+    border: 1px solid #DDE1E9 !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 0.82rem !important;
+    transition: background 0.15s ease, border-color 0.15s ease !important;
+}
+
+div.stButton > button[kind="secondary"]:hover,
+div.stButton > button[data-testid="stBaseButton-secondary"]:hover {
+    border-color: #2D2E96 !important;
+    color: #2D2E96 !important;
+}
+
+div.stDownloadButton > button {
+    background: #0AA35B !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+}
+
+/* Botao "ver apenas este" */
+.kpi-filter-btn > div > button {
+    background: transparent !important;
+    border: 1px solid #D1D5DB !important;
+    color: #4B5563 !important;
+    font-size: 0.75rem !important;
+    border-radius: 6px !important;
+    padding: 0.25rem 0.5rem !important;
+    font-weight: 500 !important;
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+    transition: all 0.15s ease !important;
+}
+
+.kpi-filter-btn > div > button:hover {
+    border-color: #2D2E96 !important;
+    color: #2D2E96 !important;
+}
+
+/* ==========================================================
+   DIVISOR
+   ========================================================== */
+.divider {
+    border: none;
+    border-top: 1px solid #DDE1E9;
+    margin: 0.75rem 0;
+}
+
+/* ==========================================================
+   ACTION BAR
+   ========================================================== */
+.action-meta {
+    font-size: 0.7rem;
+    color: #5A6478;
+    text-align: right;
+    margin-bottom: 0.35rem;
+}
+.action-meta b { color: #2D2E96; }
+
+/* ==========================================================
+   RECORD BADGE
+   ========================================================== */
+.record-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #5A6478;
+    background: #FFFFFF;
+    border: 1px solid #DDE1E9;
+    border-radius: 8px;
+    padding: 0.3rem 0.85rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 0.6rem;
+}
+
+.record-badge b { color: #2D2E96; }
+.record-badge .kpi-active-tag {
+    background: #2D2E96;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.05rem 0.45rem;
+    margin-left: 0.3rem;
+}
+
+/* ==========================================================
+   MODAL
+   ========================================================== */
+div[data-testid="stModal"] {
+    background: #FFFFFF !important;
+    border: 1px solid #DDE1E9 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important;
+}
+div[data-testid="stModal"] h2 {
+    color: #2D2E96 !important;
+    font-weight: 800 !important;
+    font-size: 1.2rem !important;
+}
+
+/* ==========================================================
+   RODAPE
+   ========================================================== */
+.app-footer {
+    text-align: center;
+    color: #8B95A5;
+    font-size: 0.73rem;
+    padding: 0.75rem 0 0.5rem 0;
+    border-top: 1px solid #DDE1E9;
+    margin-top: 1rem;
+}
+
+/* ==========================================================
+   AGGRID - cabecalho azul escuro
+   ========================================================== */
+.ag-theme-balham .ag-header,
+.ag-theme-balham .ag-header-row,
+.ag-theme-streamlit .ag-header,
+.ag-theme-streamlit .ag-header-row {
+    background-color: #1E2675 !important;
+    color: #FFFFFF !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 2px solid #2D2E96 !important;
+}
+
+.ag-theme-balham .ag-header-cell-label,
+.ag-theme-streamlit .ag-header-cell-label {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+}
+
+.ag-theme-balham .ag-header-cell:hover,
+.ag-theme-streamlit .ag-header-cell:hover {
+    background-color: #2D2E96 !important;
+}
+
+.ag-theme-balham .ag-header-cell-menu-button,
+.ag-theme-balham .ag-sort-indicator-icon,
+.ag-theme-balham .ag-header-icon,
+.ag-theme-streamlit .ag-icon {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #DDE1E9; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #8B95A5; }
+

@@ -1,0 +1,7 @@
+# Dependências do Painel Estratégico de Compras - Farmácias São João
+streamlit>=1.35.0
+pandas>=2.0.0
+numpy>=1.26.0
+openpyxl>=3.1.0
+streamlit-aggrid>=0.3.4
+Pillow>=10.0.0

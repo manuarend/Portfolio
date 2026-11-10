@@ -1,14 +1,29 @@
-# 🏷️ Painel de Competitividade Comercial & Price Index
+# 🏷️ Painel de Competitividade Comercial & Price Intelligence
 
-Este projeto desenvolve uma infraestrutura analítica em **SQL e Python** para avaliação de **inteligência de preços (Pricing), índice de competitividade (Price Index)** e sustentabilidade de margens comerciais em relação a benchmarks concorrentes no mercado do Sudeste (**Espírito Santo, Rio de Janeiro e São Paulo**).
+Este projeto desenvolve uma infraestrutura analítica de ponta a ponta para **Inteligência de Preços (Pricing), Price Index e Monitoramento de Concorrência**. 
+
+A solução integra **consultas avançadas em SQL (CTEs, Window Functions)**, rotinas em **Python** e uma **aplicação interativa completa construída com Streamlit e AgGrid**.
 
 ---
 
 ## 🔒 Diretrizes de Anonimização e Sigilo Corporativo
 > [!NOTE]
 > - **Valores e Preços:** Totalmente desvinculados de listas de preços ou custos reais da empresa. Os preços unitários estão restritos entre **R$ 1.000,00 e R$ 10.000,00** e os volumes mensais variam entre **1 e 50 unidades/lotes**.
-> - **Concorrentes e Nomes:** Todos os nomes de concorrentes e benchmarks utilizados nesta base são puramente fictícios (ex.: "Distribuidora Aço Líder", "Metálica Paulista B2B", "Rio Tubos & Conexões").
-> - **Cidades e Estados:** Amostragem geográfica baseada em polos estratégicos de ES (Vitória, Serra, Vila Velha), RJ (Rio de Janeiro, Macaé, Volta Redonda) e SP (São Paulo, Campinas, Santos, São José dos Campos).
+> - **Concorrentes e Nomes:** Todos os nomes de concorrentes e benchmarks utilizados nesta base são puramente fictícios (ex.: *Distribuidora Aço Líder, Metálica Paulista B2B, Rio Tubos & Conexões, Sul-Sudeste Materiais Industriais*).
+> - **Cidades e Estados:** Amostragem geográfica baseada em polos estratégicos de **Espírito Santo (ES)** (*Vitória, Serra, Vila Velha*), **Rio de Janeiro (RJ)** (*Rio de Janeiro, Macaé, Volta Redonda*) e **São Paulo (SP)** (*São Paulo, Campinas, Santos, São José dos Campos*).
+
+---
+
+## 🏗️ Arquitetura da Solução
+
+```mermaid
+flowchart TD
+    A["Bases de Pesquisa de Preço & Concorrência"] --> B["Camada de Normalização & Join (EAN / SKU)"]
+    B --> C["Cálculo de Price Index, Margem & Elasticidade"]
+    C --> D["🌐 Painel Interativo Streamlit (AgGrid + Custom CSS)"]
+    C --> E["📊 Consultas Analíticas em SQL Avançado"]
+    C --> F["📈 Relatório Executivo em Linha de Comando (Python)"]
+```
 
 ---
 
@@ -53,17 +68,20 @@ O dataset sintético está em [`data/competitividade_comercial_sintetico.csv`](d
 
 ---
 
-## 💻 Códigos & Consultas Analíticas
-- **Consultas em SQL Avançado:** Veja o script [`scripts/consultas_competitividade.sql`](scripts/consultas_competitividade.sql), contendo consultas com CTEs e Window Functions (`DENSE_RANK()`, agregações ponderadas).
-- **Script Executivo em Python:**
-  ```bash
-  cd 03-painel-competitividade-comercial/scripts
-  python analise_competitividade.py
-  ```
+## 💻 Como Executar
 
----
+### 1. Rodar o Painel Interativo em Streamlit
+```bash
+cd 03-painel-competitividade-comercial/app
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-## 💡 Recomendações Estratégicas
-- **Elasticidade Cruzada:** Para SKUs da categoria *Fixadores Industriais*, onde o Price Index médio é inferior a 95%, há margem para recomposição de até 3% no preço médio sem risco de perda de share.
-- **Equalização Interestadual:** Revisão das regras de frete e tabela de preços entre as filiais de São Paulo e Rio de Janeiro para conter a dispersão de preços que incentiva o cliente a triangular compras entre praças.
+### 2. Consultas em SQL Avançado
+Veja o script [`scripts/consultas_competitividade.sql`](scripts/consultas_competitividade.sql), contendo consultas com CTEs e Window Functions (`DENSE_RANK()`, agregações ponderadas).
 
+### 3. Script Executivo em Python
+```bash
+cd 03-painel-competitividade-comercial/scripts
+python analise_competitividade.py
+```
