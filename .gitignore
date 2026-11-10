@@ -37,3 +37,12 @@ venv.bak/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+
+# Regras de Seguranca Estrita - Arquivos Originais da Empresa
+ORIGINAIS*/
+*EMPRESA*/
+*original*/
+*.zip
+node_modules/
+dist/

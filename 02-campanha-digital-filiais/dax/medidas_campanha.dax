@@ -42,3 +42,4 @@ DIVIDE([Faturamento Campanha], [Pedidos Convertidos], BLANK())
 // 10. Custo de Aquisição por Pedido (CAC Sintético)
 [Custo Aquisição por Pedido R$] = 
 DIVIDE([Investimento Mídia], [Pedidos Convertidos], BLANK())
+

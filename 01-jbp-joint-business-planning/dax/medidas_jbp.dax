@@ -52,3 +52,4 @@ SWITCH(
     [% Atingimento Meta] >= 0.88, "#F39C12", // Laranja: Abaixo do Alvo
     "#C0392B"                                // Vermelho: Atenção Crítica
 )
+

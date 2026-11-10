@@ -1,71 +1,85 @@
-# 🤝 Joint Business Planning (JBP) - Acompanhamento de Metas & Acordos Comerciais
+# 🤝 Joint Business Planning (JBP) - Data Application & Análise de Metas Comerciais
 
-Este projeto estrutura a gestão analítica do **Joint Business Plan (JBP)** — processo estratégico de planejamento colaborativo entre a distribuidora/comercializadora e as indústrias parceiras.
+Este projeto apresenta uma **solução completa de inteligência comercial (Data App & Analytics)** para gestão do **Joint Business Plan (JBP)** — processo estratégico de planejamento colaborativo entre a distribuidora/rede de varejo e as indústrias parceiras de bens de consumo e farmacêuticas.
 
-O objetivo é monitorar o cumprimento de acordos comerciais, entrega de volume, retorno de verbas cooperadas (marketing/incentivo) e o nível de serviço logístico (SLA), transformando dados operacionais em alavancas de negociação executiva.
+O projeto inclui tanto **scripts analíticos de backend em Python** quanto uma **aplicação web executiva interativa construída em React, Vite, Tailwind CSS e Recharts**.
 
 ---
 
-## 🔒 Diretrizes de Anonimização e LGPD
+## 🔒 Diretrizes de Anonimização, LGPD e Sigilo Corporativo
 > [!NOTE]
-> - **Valores e Volumes:** Todos os dados foram gerados sinteticamente para fins de demonstração de capacidade analítica. Os volumes foram fixados no intervalo de **1 a 50 unidades/lotes** e os valores financeiros entre **R$ 1.000,00 e R$ 10.000,00**.
-> - **Relação com Dados Reais:** Não há proporção, espelhamento ou conexão matemática com volumes ou faturamentos reais corporativos, garantindo total conformidade com boas práticas de segurança da informação.
-> - **Geolocalização:** Foco exclusivo nas operações industriais dos estados de **Espírito Santo (ES)**, **Rio de Janeiro (RJ)** e **São Paulo (SP)**.
-> - **Indústrias:** Os nomes de indústrias representam polos parceiros de mercado para contexto de negócio, mas todas as métricas são 100% ilustrativas.
+> - **Valores e Volumes 100% Descorrelacionados:** Todos os faturamentos e volumes foram sintetizados de forma aleatória e independente. Volumes estão estritamente contidos entre **1 e 50 unidades/lotes** e valores de faturamento entre **R$ 1.000,00 e R$ 10.000,00**.
+> - **Sem Proporção com Dados Reais:** Não há multiplicação, fator redutor ou relação matemática com os números reais da empresa, inviabilizando qualquer engenharia reversa.
+> - **Geolocalização:** Dados concentrados nas praças do Sudeste: **Espírito Santo (ES)** (*Vitória, Serra, Vila Velha, Linhares*), **Rio de Janeiro (RJ)** (*Rio de Janeiro, Niterói, Macaé, Volta Redonda*) e **São Paulo (SP)** (*São Paulo, Campinas, Santos, São José dos Campos*).
+> - **Entidades e Marcas:** Nomes de indústrias são ilustrativos de mercado e a marca do distribuidor foi ficticiada como *Nexus Distribuição & Varejo B2B*.
 
 ---
 
-## 🎯 Problema de Negócio
-Em operações B2B de grande porte, a falta de visibilidade em tempo real sobre os acordos de JBP acarreta:
-1. **Perda de bonificações e descontos contratuais:** Falhas na identificação precoce de metas de faturamento e volume em risco no final do ciclo.
-2. **Subutilização ou desperdício de verba cooperada:** Dificuldade de mensurar o índice de alavancagem de vendas proporcionado pelos investimentos conjuntos.
-3. **Desalinhamento entre vendas e logística:** Rupturas de estoque e descumprimento de SLAs contratuais, prejudicando a relação comercial.
+## 🏗️ Arquitetura da Solução
+
+```mermaid
+flowchart LR
+    A["Bases Transacionais Sintéticas (CSV / JSON)"] --> B["Pipeline de Agregação (Python / Node)"]
+    B --> C["Camada Analítica de KPIs (Sell-in / Sell-out)"]
+    C --> D["📊 Painel Executivo Web (React + Vite + Recharts)"]
+    C --> E["📈 Script de Relatório Executivo (Python CLI)"]
+    C --> F["📐 Medidas DAX para Power BI (dax/)"]
+```
 
 ---
 
-## 📊 Arquitetura de Dados & Dicionário de Variáveis
+## 🎯 Desafio de Negócio
+Em grandes redes varejistas e distribuidoras, os planos de JBP envolvem dezenas de indústrias e milhares de SKUs. Os principais pontos críticos monitorados pelo painel são:
+1. **Participação Digital (Digital Share %):** Crescimento do canal digital (*App, Site, Marketplace*) em relação às lojas físicas e televendas.
+2. **Aderência às Metas Contratuais:** Acompanhamento dinâmico do faturamento realizado versus o compromisso do JBP.
+3. **Desempenho por Linha e Indústria:** Identificação dos laboratórios e fabricantes que sustentam o crescimento ou que demandam intervenção promocional.
+4. **Mix Geográfico:** Desempenho e penetração nos polos estratégicos de ES, RJ e SP.
 
-O dataset está localizado em [`data/jbp_acordos_sintetico.csv`](data/jbp_acordos_sintetico.csv) e possui a seguinte estrutura:
+---
 
+## 📊 Arquitetura de Dados
+
+### 1. Aplicação Web Interativa (`app/src/data/jbp_aggregated_data.json`)
+Dataset sintetizado com estrutura hierárquica por indústria, mês, categoria mercadológica, canais e UFs.
+
+### 2. Base Tabular para Análise Direta ([`data/jbp_acordos_sintetico.csv`](data/jbp_acordos_sintetico.csv))
 | Campo | Tipo | Descrição | Exemplo |
 | :--- | :--- | :--- | :--- |
-| `id_acordo` | String | Identificador único do acordo de JBP | `JBP-0001` |
-| `mes_referencia` | Date/String | Mês e ano da competência avaliada | `2026-03` |
-| `industria_parceira` | String | Nome da indústria foco do plano | `ArcelorMittal`, `Suzano` |
-| `categoria_foco` | String | Linha estratégica de produtos do acordo | `Aços e Perfis Estruturais` |
-| `cidade_polo` | String | Cidade polo da operação | `Vitória`, `Volta Redonda`, `Campinas` |
-| `uf_operacao` | String | Unidade Federativa (`ES`, `RJ`, `SP`) | `ES` |
-| `volume_planejado` | Inteiro | Volume acordado (1 a 50 unidades) | `35` |
-| `volume_realizado` | Inteiro | Volume executado (1 a 50 unidades) | `38` |
-| `meta_faturamento` | Decimal | Meta financeira acordada (R$) | `R$ 6.500,00` |
-| `faturamento_realizado`| Decimal | Faturamento efetivamente faturado | `R$ 6.820,00` |
-| `atingimento_pct` | Decimal | Percentual de alcance da meta financeira | `104.9%` |
-| `verba_cooperada` | Decimal | Valor aportado em incentivos/marketing | `R$ 1.500,00` |
-| `sla_entrega_pct` | Decimal | On-Time Delivery (% de pontualidade) | `96.4%` |
-| `status_jbp` | String | Classificação de risco executivo | `Superado`, `No Alvo`, `Crítico` |
+| `id_acordo` | String | Código único do acordo | `JBP-0001` |
+| `mes_referencia` | String | Competência avaliada | `2026-03` |
+| `industria_parceira` | String | Fabricante parceiro | `Eurofarma`, `EMS`, `Aché`, `Sanofi` |
+| `cidade_polo` / `uf_operacao` | String | Localidade (`ES`, `RJ`, `SP`) | `Vitória` / `ES` |
+| `faturamento_realizado` | Decimal | Vendas faturadas (R$ 1.000 a R$ 10.000) | `R$ 6.820,00` |
+| `meta_faturamento` | Decimal | Meta estipulada no plano | `R$ 6.500,00` |
+| `atingimento_pct` | Decimal | % de alcance da meta | `104.9%` |
+| `verba_cooperada` | Decimal | Investimento conjunto em marketing | `R$ 1.500,00` |
+| `sla_entrega_pct` | Decimal | Pontualidade de entrega | `96.4%` |
 
 ---
 
-## 📈 Principais Indicadores (KPIs)
-- **Atingimento Global do JBP (%):** Razão entre faturamento realizado e meta financeira acordada.
-- **Índice de Alavancagem de Verba (ROI JBP):** `Faturamento Realizado / Verba Cooperada Investida`.
-- **Aderência de Volume:** `Volume Realizado / Volume Planejado`.
-- **Nível de Serviço Logístico (SLA %):** Percentual de entregas realizadas no prazo contratual.
+## 📈 Indicadores Principais (KPIs)
+- **Atingimento Financeiro:** `(Faturamento Realizado / Meta) * 100`.
+- **Digital Share (%):** `(Faturamento Canais Digitais / Faturamento Total) * 100`.
+- **Alavancagem de Verba (ROI JBP):** `Faturamento Realizado / Verba Cooperada`.
+- **Crescimento YoY (Year-over-Year):** `(Receita Mês Ano Atual / Receita Mês Ano Anterior - 1) * 100`.
 
 ---
 
-## 💻 Como Executar a Análise
-Para rodar a rotina analítica em Python:
+## 💻 Como Executar
 
+### 1. Rodar o Dashboard Interativo (React + Vite)
+```bash
+cd 01-jbp-joint-business-planning/app
+npm install
+npm run dev
+```
+O painel abrirá automaticamente em `http://localhost:5173`, permitindo alternar filtros de fornecedores, linhas de produtos, períodos, canais e tema Dark/Light.
+
+### 2. Rodar a Rotina de Análise Executiva (Python)
 ```bash
 cd 01-jbp-joint-business-planning/scripts
 python analise_jbp.py
 ```
 
----
-
-## 💡 Insights e Recomendações Estratégicas
-1. **Revisão Trimestral dos Acordos (QBR):** Fornecedores com atingimento abaixo de 90% e SLA comprometido devem entrar em plano de ação imediato antes do encerramento do semestre.
-2. **Realocação Inteligente de Verba Cooperada:** Direcionar investimentos de marketing conjunto para as categorias e regiões com maior taxa de conversão em faturamento incremental (maior alavancagem de ROI).
-3. **Integração com Suprimentos:** Otimizar pedidos conjuntos nos polos de Vitória (ES), Volta Redonda (RJ) e Campinas (SP) para maximizar o volume consolidado e obter melhores faixas de desconto.
-
+### 3. Fórmulas DAX para Power BI
+As fórmulas completas de medidas para dashboards no Power BI estão documentadas em [`dax/medidas_jbp.dax`](dax/medidas_jbp.dax).
