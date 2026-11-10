@@ -442,3 +442,4 @@ with tab_historico:
     linear_hist["VALOR"] = linear_hist["VALOR"].apply(lambda v: f"R$ {v:,.2f}")
     linear_hist["VOLUME"] = linear_hist["VOLUME"].apply(lambda q: f"{int(q):,}")
     st.dataframe(linear_hist, use_container_width=True, hide_index=True)
+
