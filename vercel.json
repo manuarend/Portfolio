@@ -1,4 +1,0 @@
-﻿{
-  "buildCommand": "cd 01-jbp-joint-business-planning && npm install && npm run build",
-  "outputDirectory": "01-jbp-joint-business-planning/dist"
-}
