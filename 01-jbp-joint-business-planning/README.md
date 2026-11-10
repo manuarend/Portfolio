@@ -1,8 +1,29 @@
+<div align="center">
+
 # 🤝 Joint Business Planning (JBP) - Data Application & Análise de Metas Comerciais
 
-Este projeto apresenta uma **solução completa de inteligência comercial (Data App & Analytics)** para gestão do **Joint Business Plan (JBP)** — processo estratégico de planejamento colaborativo entre a distribuidora/rede de varejo e as indústrias parceiras de bens de consumo e farmacêuticas.
+[![Acessar Demonstração ao Vivo](https://img.shields.io/badge/🚀_Live_Demo-Acessar_Painel_Interativo-2ecc71?style=for-the-badge&logo=react)](https://manuarend.github.io/Portfolio/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Online-blue?style=for-the-badge&logo=github)](https://manuarend.github.io/Portfolio/)
+[![React](https://img.shields.io/badge/Frontend-React_18_%2B_Vite-61dafb?style=for-the-badge&logo=react)](https://react.dev)
+[![Tailwind CSS](https://img.shields.io/badge/UI-Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 
-O projeto inclui tanto **scripts analíticos de backend em Python** quanto uma **aplicação web executiva interativa construída em React, Vite, Tailwind CSS e Recharts**.
+**Painel Executivo Interativo para Gestão de Metas Comerciais B2B e Parcerias Industriais**
+
+</div>
+
+---
+
+## 🌐 Demonstração Interativa Online (Live Demo)
+> [!TIP]
+> Você pode acessar o painel executivo funcionando ao vivo em qualquer navegador (sem necessidade de instalar nada):  
+> 👉 **[Clique aqui para abrir o Painel Interativo no GitHub Pages](https://manuarend.github.io/Portfolio/)**  
+> 
+> *Funcionalidades ativas no painel:*
+> - **Seleção dinâmica de fornecedores industriais** (*Eurofarma, EMS, Aché, Sanofi, Bayer, etc.*);
+> - **Análise comparativa de canais** (*Loja Física, App, Site, Marketplace, Televendas*);
+> - **Filtro regional de praças** (*Espírito Santo, Rio de Janeiro e São Paulo*);
+> - **Alternância instantânea de tema** (*Modo Claro / Modo Escuro*);
+> - **Visualizações interativas** (*Recharts, cartões de KPIs dinâmicos, rankings e análise de linhas de produtos*).
 
 ---
 
@@ -32,7 +53,7 @@ flowchart LR
 Em grandes redes varejistas e distribuidoras, os planos de JBP envolvem dezenas de indústrias e milhares de SKUs. Os principais pontos críticos monitorados pelo painel são:
 1. **Participação Digital (Digital Share %):** Crescimento do canal digital (*App, Site, Marketplace*) em relação às lojas físicas e televendas.
 2. **Aderência às Metas Contratuais:** Acompanhamento dinâmico do faturamento realizado versus o compromisso do JBP.
-3. **Desempenho por Linha e Indústria:** Identificação dos laboratórios e fabricantes que sustentam o crescimento ou que demandam intervenção promocional.
+3. **Desempenho por Linha e Indústria:** Identificação dos fabricantes que sustentam o crescimento ou que demandam intervenção promocional.
 4. **Mix Geográfico:** Desempenho e penetração nos polos estratégicos de ES, RJ e SP.
 
 ---
@@ -65,7 +86,7 @@ Dataset sintetizado com estrutura hierárquica por indústria, mês, categoria m
 
 ---
 
-## 💻 Como Executar
+## 💻 Como Executar Localmente
 
 ### 1. Rodar o Dashboard Interativo (React + Vite)
 ```bash
@@ -73,7 +94,7 @@ cd 01-jbp-joint-business-planning/app
 npm install
 npm run dev
 ```
-O painel abrirá automaticamente em `http://localhost:5173`, permitindo alternar filtros de fornecedores, linhas de produtos, períodos, canais e tema Dark/Light.
+O painel abrirá automaticamente em `http://localhost:5173`.
 
 ### 2. Rodar a Rotina de Análise Executiva (Python)
 ```bash
